@@ -18,7 +18,7 @@ class CustomLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPngImage(
-      path: Assets.svg.logo,
+      path: Assets.png.logo.path,
       height: height,
       width: width,
       fit: fit,

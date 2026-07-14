@@ -13,7 +13,7 @@ class DioHelper {
   static Future<void> init() async {
     dio = Dio(
       BaseOptions(
-        baseUrl: AppConstants.KhamnyBaseUrl,
+        baseUrl: '',
         receiveDataWhenStatusError: true,
       ),
     );
