@@ -1,0 +1,23 @@
+app:
+  android:
+    flavorDimensions: "flavor-type"
+  ios: {}
+
+flavors:
+  user:
+    app:
+      name: "Real State"
+    android:
+      applicationId: "com.example.real_state.user"
+      generateDummyAssets: true
+    ios:
+      bundleId: "com.example.realState.user"
+
+  admin:
+    app:
+      name: "Real State Admin"
+    android:
+      applicationId: "com.example.real_state.admin"
+      generateDummyAssets: true
+    ios:
+      bundleId: "com.example.realState.admin"

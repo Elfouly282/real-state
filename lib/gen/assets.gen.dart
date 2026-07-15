@@ -27,11 +27,11 @@ abstract final class Assets {
 
 class AssetGenImage {
   const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-    this.animation,
-  });
+      this._assetName, {
+        this.size,
+        this.flavors = const {},
+        this.animation,
+      });
 
   final String _assetName;
 
