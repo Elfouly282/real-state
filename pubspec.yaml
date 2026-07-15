@@ -55,6 +55,7 @@ dependencies:
   fluttertoast: ^9.0.0
   flutter_native_splash: ^2.4.8
   smooth_page_indicator: ^2.0.1
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   build_runner: ^2.4.0
@@ -84,6 +85,10 @@ flutter:
   assets:
     - assets/png/
     - assets/svg/
+    - assets/png/
+  
+flutter_gen:
+ output: lib/gen/
 
   #   - images/a_dot_ham.jpeg
 
