@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_state/core/constant/custom_button.dart';
+import 'package:real_state/core/funcations/app_functions.dart';
+import 'package:real_state/core/save%20data/save_data.dart';
+import 'package:real_state/features/auth/presentation/views/login_screen.dart';
 import 'package:real_state/features/onboarding/data/data_source/onboarding_data.dart';
 import 'package:real_state/features/onboarding/presentations/views/on_boarding_items.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -18,7 +21,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void nextPage() {
     if (currentPage == OnBoardingData.pages.length - 1) {
-      // TODO: Navigate To Login
       return;
     }
 
@@ -44,18 +46,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              /// Skip
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    // TODO: Navigate To Login
-                  },
-                  child: const Text("Skip"),
-                ),
+                child: TextButton(onPressed: () {}, child: const Text("Skip")),
               ),
 
-              /// PageView
               Expanded(
                 child: PageView.builder(
                   controller: _controller,
@@ -73,7 +68,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
               const SizedBox(height: 25),
 
-              /// Indicator + Arrow
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -110,7 +104,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
               const SizedBox(height: 20),
 
-              /// Continue Button
               CustomButton(
                 borderRadius: 15,
                 color: Color(0xff1597A8),
@@ -122,7 +115,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     : "Continue",
                 onTap: () {
                   if (currentPage == OnBoardingData.pages.length - 1) {
-                    // TODO: Navigate To Login
+                    CacheHelper().saveData(key: 'OnBoarding', value: true);
+                    AppFunctions.navigateToAndFinish(context, LoginScreen());
                   } else {
                     nextPage();
                   }

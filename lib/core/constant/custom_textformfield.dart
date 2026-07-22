@@ -10,7 +10,7 @@ class CustomTextformfeild extends StatefulWidget {
     required this.keyboardType,
     required this.controller,
     required this.validator,
-    required this.formFieldKey,
+    this.formFieldKey,
     this.borderRadius,
     this.hintText,
     this.labelText,

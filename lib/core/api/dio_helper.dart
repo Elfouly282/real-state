@@ -13,7 +13,7 @@ class DioHelper {
   static Future<void> init() async {
     dio = Dio(
       BaseOptions(
-        baseUrl: '',
+        baseUrl: 'https://real.newcinderella.online',
         receiveDataWhenStatusError: true,
       ),
     );
