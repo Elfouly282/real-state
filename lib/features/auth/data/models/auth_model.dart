@@ -1,23 +1,5 @@
 import '../../domain/entities/auth_entity.dart';
 
-/// Parses the login response:
-/// ```json
-/// [
-///   {
-///     "data": {
-///       "user": {
-///         "id": 264,
-///         "name": "Admin",
-///         "email": "admin@example.com",
-///         "role": "admin",
-///         "created_at": "2026-07-14T18:21:15.000000Z"
-///       },
-///       "token": "629|htsDyTCVzh3FhRshX3Q1...",
-///       "token_type": "Bearer"
-///     }
-///   }
-/// ]
-/// ```
 class AuthModel extends AuthEntity {
   const AuthModel({
     required super.id,
@@ -30,7 +12,6 @@ class AuthModel extends AuthEntity {
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
-    // Response is wrapped in an array → first element → "data" key
     final data = json['data'] as Map<String, dynamic>;
     final user = data['user'] as Map<String, dynamic>;
 

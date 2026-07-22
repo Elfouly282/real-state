@@ -9,6 +9,7 @@ class CustomPngImage extends StatelessWidget {
     this.fit,
     this.borderRadius,
     this.color,
+    this.colorBlendMode,
   });
 
   final String path;
@@ -17,6 +18,7 @@ class CustomPngImage extends StatelessWidget {
   final BoxFit? fit;
   final BorderRadius? borderRadius;
   final Color? color;
+  final BlendMode? colorBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,9 @@ class CustomPngImage extends StatelessWidget {
       width: width,
       fit: fit,
       color: color,
+      colorBlendMode: color != null
+          ? (colorBlendMode ?? BlendMode.srcIn)
+          : null,
     );
 
     if (borderRadius != null) {

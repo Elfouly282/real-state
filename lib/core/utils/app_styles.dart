@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_fonts.dart';
 
 TextStyle _getTextStyle(
@@ -33,7 +34,7 @@ TextStyle getLightStyle({
   double? height,
   TextDecoration? decoration,
 }) {
-  return _getTextStyle(fontSize, FontWeight.w400, color, height, decoration);
+  return _getTextStyle(fontSize, FontWeight.w300, color, height, decoration);
 }
 
 TextStyle getRegularStyle({

@@ -1,10 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'save data/save_data.dart';
+import 'save_data/save_data.dart';
 import 'security/security_helper.dart';
 import 'api/dio_helper.dart';
 import 'api/internet_connection_checker.dart';
-
 
 final GetIt getIt = GetIt.instance;
 
@@ -22,7 +21,7 @@ Future<void> initAppModule() async {
   getIt.registerLazySingleton<AuthStorage>(() => authStorage);
 
   await DioHelper.init();
-  getIt.registerLazySingleton<DioHelper>(() => DioHelper());
+  // DioHelper uses only static methods — no instance needed in the container.
 
   getIt.registerLazySingleton<InternetConnectionChecker>(
     () => InternetConnectionChecker.createInstance(),
@@ -31,5 +30,4 @@ Future<void> initAppModule() async {
   getIt.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(getIt<InternetConnectionChecker>()),
   );
-
 }

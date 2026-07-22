@@ -12,12 +12,12 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   CategoriesCubit(this._get, this._create, this._update, this._delete)
       : super(CategoriesInitial());
 
-  Future<void> load({int perPage = 50}) async {
-    emit(CategoriesLoading());
-    final res = await _get(perPage: perPage);
+  Future<void> load({int perPage = 50, int page = 1}) async {
+    if (state is! CategoriesSuccess) emit(CategoriesLoading());
+    final res = await _get(perPage: perPage, page: page);
     res.fold(
       (f) => emit(CategoriesFailure(f.message)),
-      (list) => emit(CategoriesSuccess(list)),
+      (paginated) => emit(CategoriesSuccess(paginated.data, paginated.meta)),
     );
   }
 
@@ -34,30 +34,37 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       description: description,
       sortOrder: sortOrder,
     );
-    res.fold((f) => emit(CategoriesFailure(f.message)), (_) => load());
+    await res.fold(
+      (f) async => emit(CategoriesFailure(f.message)),
+      (_) async => load(),
+    );
   }
 
-  Future<void> update(
-    int id, {
+  Future<void> update(int id, {
     required String name,
     String? slug,
     String? description,
     int? sortOrder,
   }) async {
     emit(CategoriesActionLoading());
-    final res = await _update(
-      id,
+    final res = await _update(id,
       name: name,
       slug: slug,
       description: description,
       sortOrder: sortOrder,
     );
-    res.fold((f) => emit(CategoriesFailure(f.message)), (_) => load());
+    await res.fold(
+      (f) async => emit(CategoriesFailure(f.message)),
+      (_) async => load(),
+    );
   }
 
   Future<void> delete(int id) async {
     emit(CategoriesActionLoading());
     final res = await _delete(id);
-    res.fold((f) => emit(CategoriesFailure(f.message)), (_) => load());
+    await res.fold(
+      (f) async => emit(CategoriesFailure(f.message)),
+      (_) async => load(),
+    );
   }
 }

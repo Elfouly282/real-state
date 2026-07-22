@@ -29,11 +29,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     try {
       final model = await _remote.login(email: email, password: password);
-
-      // Persist token & userId securely using existing AuthStorage
       await _authStorage.setToken(model.token);
       await _authStorage.setUserId(model.id.toString());
-
       return Right(model);
     } on ServerException catch (e) {
       return Left(ApiFailure(message: e.message));
@@ -45,16 +42,30 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> logout() async {
     if (!await _networkInfo.isConnected) {
-      return Left(NoInternetFailure(message: 'لا يوجد اتصال بالإنترنت'));
+      try {
+        await _authStorage.clearAuth();
+      } catch (_) {
+        // ignore storage errors when offline
+      }
+      return const Right(true);
     }
+
+    // Call API first while token is still in memory.
     try {
       await _remote.logout();
-      await _authStorage.clearAuth();
-      return const Right(true);
-    } on ServerException catch (e) {
-      return Left(ApiFailure(message: e.message));
-    } catch (e) {
-      return Left(ServiceFailure(message: e.toString()));
+    } on ServerException catch (_) {
+      // Remote logout failed — still clear local credentials below.
+    } catch (_) {
+      // Unexpected error — still clear local credentials below.
     }
+
+    // Always clear local credentials after the API call attempt.
+    try {
+      await _authStorage.clearAuth();
+    } catch (_) {
+      // ignore storage errors
+    }
+
+    return const Right(true);
   }
 }

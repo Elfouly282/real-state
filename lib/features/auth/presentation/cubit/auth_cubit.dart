@@ -30,10 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     emit(AuthLoading());
-    final result = await _logoutUsecase();
-    result.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (_) => emit(AuthLoggedOut()),
-    );
+    await _logoutUsecase();
+    emit(AuthLoggedOut());
   }
 }

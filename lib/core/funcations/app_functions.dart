@@ -8,7 +8,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../constant/app_constants.dart';
-import '../save data/save_data.dart';
+import '../save_data/save_data.dart';
 
 class AppFunctions {
   static String reverseString(String originalString) {
@@ -172,7 +172,14 @@ class AppFunctions {
   }
 
   static String getLanguageCode() {
-    final savedLanguage = CacheHelper().getDataString(key: 'language');
+    // Use the static sharedPreferences field directly — avoids creating a new
+    // CacheHelper instance which would crash because init() hasn't been called.
+    String? savedLanguage;
+    try {
+      savedLanguage = CacheHelper.sharedPreferences.getString('language');
+    } catch (_) {
+      // sharedPreferences not yet initialised — fall through to device locale
+    }
 
     if (savedLanguage != null) {
       return savedLanguage;
@@ -247,7 +254,7 @@ class AppFunctions {
     return '0xff${hex.substring(0, 6)}';
   }
 
-  String colorToHex(Color color) {
+  static String colorToHex(Color color) {
     final int argb = color.toARGB32();
     return '0x${argb.toRadixString(16).padLeft(8, '0').toUpperCase()}';
   }

@@ -7,16 +7,22 @@ import 'domain/usecases/orders_usecases.dart';
 import 'presentation/cubit/orders_cubit.dart';
 
 void initOrdersModule() {
-  if (!getIt.isRegistered<OrdersRemoteDatasource>())
-    getIt.registerLazySingleton<OrdersRemoteDatasource>(() => OrdersRemoteDatasourceImpl());
-
-  if (!getIt.isRegistered<OrdersRepository>())
+  if (!getIt.isRegistered<OrdersRemoteDatasource>()) {
+    getIt.registerLazySingleton<OrdersRemoteDatasource>(
+        () => OrdersRemoteDatasourceImpl());
+  }
+  if (!getIt.isRegistered<OrdersRepository>()) {
     getIt.registerLazySingleton<OrdersRepository>(
-        () => OrdersRepositoryImpl(remote: getIt(), network: getIt<NetworkInfo>()));
-
-  if (!getIt.isRegistered<GetOrdersUsecase>())
+        () => OrdersRepositoryImpl(
+            remote: getIt(), network: getIt<NetworkInfo>()));
+  }
+  if (!getIt.isRegistered<GetOrdersUsecase>()) {
     getIt.registerLazySingleton(() => GetOrdersUsecase(getIt()));
-
-  if (!getIt.isRegistered<OrdersCubit>())
+  }
+  if (!getIt.isRegistered<GetOrderUsecase>()) {
+    getIt.registerLazySingleton(() => GetOrderUsecase(getIt()));
+  }
+  if (!getIt.isRegistered<OrdersCubit>()) {
     getIt.registerFactory(() => OrdersCubit(getIt()));
+  }
 }

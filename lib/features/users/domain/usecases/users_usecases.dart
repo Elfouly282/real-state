@@ -6,7 +6,8 @@ import '../repositories/users_repository.dart';
 class GetUsersUsecase {
   final UsersRepository _repo;
   GetUsersUsecase(this._repo);
-  Future<Either<Failure, List<UserEntity>>> call() => _repo.getUsers();
+  Future<Either<Failure, PaginatedUsersEntity>> call({int perPage = 30, int page = 1}) =>
+      _repo.getUsers(perPage: perPage, page: page);
 }
 
 class GetUserUsecase {
@@ -18,5 +19,6 @@ class GetUserUsecase {
 class BlockUserUsecase {
   final UsersRepository _repo;
   BlockUserUsecase(this._repo);
-  Future<Either<Failure, bool>> call(int id) => _repo.blockUser(id);
+  Future<Either<Failure, bool>> call(int id, {required bool block}) =>
+      _repo.blockUser(id, block: block);
 }

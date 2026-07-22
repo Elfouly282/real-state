@@ -14,7 +14,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
 
   @override
   Future<Either<Failure, DashboardEntity>> getDashboard() async {
-    if (!await _network.isConnected) return Left(NoInternetFailure(message: 'لا يوجد اتصال'));
+    if (!await _network.isConnected) return Left(NoInternetFailure(message: 'No Connection'));
     try { return Right(await _remote.getDashboard()); }
     on ServerException catch (e) { return Left(ApiFailure(message: e.message)); }
     catch (e) { return Left(ServiceFailure(message: e.toString())); }

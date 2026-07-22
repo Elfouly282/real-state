@@ -20,7 +20,7 @@ class CustomCheckBox extends StatelessWidget {
           color: check ? AppColors.primaryColor : Colors.transparent,
         ),
         child: check
-            ? Icon(Icons.check, color: Colors.white, size: 14.sp)
+            ? Icon(Icons.check, color: AppColors.white, size: 14.sp)
             : null,
       ),
     );

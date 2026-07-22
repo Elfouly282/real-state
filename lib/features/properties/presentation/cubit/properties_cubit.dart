@@ -18,6 +18,9 @@ class PropertiesCubit extends Cubit<PropertiesState> {
   Future<void> delete(int id) async {
     emit(PropertiesActionLoading());
     final res = await _delete(id);
-    res.fold((f) => emit(PropertiesFailure(f.message)), (_) => load());
+    await res.fold(
+      (f) async => emit(PropertiesFailure(f.message)),
+      (_) async => load(),
+    );
   }
 }

@@ -7,18 +7,25 @@ import 'domain/usecases/users_usecases.dart';
 import 'presentation/cubit/users_cubit.dart';
 
 void initUsersModule() {
-  if (!getIt.isRegistered<UsersRemoteDatasource>())
-    getIt.registerLazySingleton<UsersRemoteDatasource>(() => UsersRemoteDatasourceImpl());
-
-  if (!getIt.isRegistered<UsersRepository>())
+  if (!getIt.isRegistered<UsersRemoteDatasource>()) {
+    getIt.registerLazySingleton<UsersRemoteDatasource>(
+        () => UsersRemoteDatasourceImpl());
+  }
+  if (!getIt.isRegistered<UsersRepository>()) {
     getIt.registerLazySingleton<UsersRepository>(
-        () => UsersRepositoryImpl(remote: getIt(), network: getIt<NetworkInfo>()));
-
-  if (!getIt.isRegistered<GetUsersUsecase>())
+        () => UsersRepositoryImpl(
+            remote: getIt(), network: getIt<NetworkInfo>()));
+  }
+  if (!getIt.isRegistered<GetUsersUsecase>()) {
     getIt.registerLazySingleton(() => GetUsersUsecase(getIt()));
-  if (!getIt.isRegistered<BlockUserUsecase>())
+  }
+  if (!getIt.isRegistered<GetUserUsecase>()) {
+    getIt.registerLazySingleton(() => GetUserUsecase(getIt()));
+  }
+  if (!getIt.isRegistered<BlockUserUsecase>()) {
     getIt.registerLazySingleton(() => BlockUserUsecase(getIt()));
-
-  if (!getIt.isRegistered<UsersCubit>())
+  }
+  if (!getIt.isRegistered<UsersCubit>()) {
     getIt.registerFactory(() => UsersCubit(getIt(), getIt()));
+  }
 }

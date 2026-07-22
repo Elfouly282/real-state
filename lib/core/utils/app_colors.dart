@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primaryColor = Color(0xFF0000FF);
+  static const Color primaryColor = Color(0xFF1597A8);
   static const Color secondaryColor = Color(0xFF0F1942);
   static const Color blue = Color(0xFF00E6FF);
   static const Color blue2 = Color(0xFF0053BC);
@@ -36,8 +36,17 @@ class AppColors {
   static const Color shadowColor = Color(0x1A000000);
   static const Color primaryShadowColor = Color(0x4DC67C4E);
 
+  // Scaffold background — shared across all admin screens
+  static const Color scaffoldBg       = Color(0xFFF5F6FA);
+  // Sidebar / login background
+  static const Color surfaceBg        = Color(0xFFF0F4F8);
+  static const Color tableHeaderBg    = Color(0xFFF1F5F9);
+  static const Color tableRowDivider  = Color(0xFFE8EDF2);
+  static const Color tableRowHover    = Color(0xFFF8FBFC);
+  static const Color tableRowOdd      = Color(0xFFFAFCFD);
+
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [primaryColor, Color(0xffFFFFFF)],
+    colors: [primaryColor, Color(0xFF0DB8CC)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

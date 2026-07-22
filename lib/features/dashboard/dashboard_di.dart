@@ -7,16 +7,19 @@ import 'domain/usecases/get_dashboard_usecase.dart';
 import 'presentation/cubit/dashboard_cubit.dart';
 
 void initDashboardModule() {
-  if (!getIt.isRegistered<DashboardRemoteDatasource>())
-    getIt.registerLazySingleton<DashboardRemoteDatasource>(() => DashboardRemoteDatasourceImpl());
-
-  if (!getIt.isRegistered<DashboardRepository>())
+  if (!getIt.isRegistered<DashboardRemoteDatasource>()) {
+    getIt.registerLazySingleton<DashboardRemoteDatasource>(
+        () => DashboardRemoteDatasourceImpl());
+  }
+  if (!getIt.isRegistered<DashboardRepository>()) {
     getIt.registerLazySingleton<DashboardRepository>(
-        () => DashboardRepositoryImpl(remote: getIt(), network: getIt<NetworkInfo>()));
-
-  if (!getIt.isRegistered<GetDashboardUsecase>())
+        () => DashboardRepositoryImpl(
+            remote: getIt(), network: getIt<NetworkInfo>()));
+  }
+  if (!getIt.isRegistered<GetDashboardUsecase>()) {
     getIt.registerLazySingleton(() => GetDashboardUsecase(getIt()));
-
-  if (!getIt.isRegistered<DashboardCubit>())
+  }
+  if (!getIt.isRegistered<DashboardCubit>()) {
     getIt.registerFactory(() => DashboardCubit(getIt()));
+  }
 }

@@ -3,7 +3,7 @@ import '../../../../core/errors/failure.dart';
 import '../entities/category_entity.dart';
 
 abstract class CategoriesRepository {
-  Future<Either<Failure, List<CategoryEntity>>> getCategories({int perPage = 50});
+  Future<Either<Failure, PaginatedCategoriesEntity>> getCategories({int perPage = 50, int page = 1});
   Future<Either<Failure, CategoryEntity>> getCategory(int id);
   Future<Either<Failure, CategoryEntity>> createCategory({
     required String name,

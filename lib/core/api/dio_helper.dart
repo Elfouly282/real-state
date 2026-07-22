@@ -30,19 +30,52 @@ class DioHelper {
     }
   }
 
-  static Future<void> headers({bool withAuth = false}) async {
-    final token = getIt<AuthStorage>().token;
-    final lang = AppFunctions.getLanguageCode();
-    final tokenValue = token?.trim();
-    final hasToken = tokenValue != null && tokenValue.isNotEmpty;
+  // ─── Private Helpers ────────────────────────────────────────────────────────
 
-    dio!.options.headers = {
+  /// Safe accessor — throws a clear assertion if [init] was never called.
+  static Dio _dio() {
+    assert(dio != null,
+        'DioHelper.init() must be called before making any requests.');
+    return dio!;
+  }
+
+  /// Returns a trimmed, non-empty token or null.
+  static String? _validToken() {
+    final value = getIt<AuthStorage>().token?.trim();
+    return (value != null && value.isNotEmpty) ? value : null;
+  }
+
+  /// Returns a trimmed, non-empty userId or null.
+  static String? _validUserId() {
+    final value = getIt<AuthStorage>().userId?.trim();
+    return (value != null && value.isNotEmpty) ? value : null;
+  }
+
+  /// Sets common headers. Pass [withAuth] = true to attach the Bearer token.
+  static Future<void> _setHeaders({bool withAuth = false}) async {
+    final token = _validToken();
+    final lang = AppFunctions.getLanguageCode();
+
+    _dio().options.headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'locale': lang,
-      if (withAuth && hasToken) 'Authorization': 'Bearer $tokenValue',
+      if (withAuth && token != null) 'Authorization': 'Bearer $token',
     };
   }
+
+  /// Builds optional legacy query params (`access-token` + `id`).
+  /// Only used by endpoints that still require them via [appendAuthParams].
+  static Map<String, dynamic> _authQueryParams() {
+    final token = _validToken();
+    final userId = _validUserId();
+    if (token != null && userId != null) {
+      return {'access-token': token, 'id': userId};
+    }
+    return {};
+  }
+
+  // ─── Public API ─────────────────────────────────────────────────────────────
 
   static Future<Response> getData({
     required String url,
@@ -50,22 +83,17 @@ class DioHelper {
     bool appendAuthParams = false,
     bool withAuth = false,
   }) async {
-    await headers(withAuth: withAuth);
-
-    final token = getIt<AuthStorage>().token;
-    final userId = getIt<AuthStorage>().userId;
-    final tokenValue = token?.trim();
-    final hasToken = tokenValue != null && tokenValue.isNotEmpty;
-    final userIdValue = userId?.trim();
-    final hasUserId = userIdValue != null && userIdValue.isNotEmpty;
+    await _setHeaders(withAuth: withAuth);
 
     final fullQuery = {
-      if (appendAuthParams && hasToken && hasUserId) "access-token": tokenValue,
-      if (appendAuthParams && hasToken && hasUserId) "id": userIdValue,
+      if (appendAuthParams) ..._authQueryParams(),
       if (query != null) ...query,
     };
 
-    return dio!.get(url, queryParameters: fullQuery.isEmpty ? null : fullQuery);
+    return _dio().get(
+      url,
+      queryParameters: fullQuery.isEmpty ? null : fullQuery,
+    );
   }
 
   static Future<Response> postData({
@@ -75,21 +103,18 @@ class DioHelper {
     bool appendAuthParams = false,
     bool withAuth = false,
   }) async {
-    await headers(withAuth: withAuth);
+    await _setHeaders(withAuth: withAuth);
 
-    final token = getIt<AuthStorage>().token;
-    final userId = getIt<AuthStorage>().userId;
-    final tokenValue = token?.trim();
-    final hasToken = tokenValue != null && tokenValue.isNotEmpty;
-    final userIdValue = userId?.trim();
-    final hasUserId = userIdValue != null && userIdValue.isNotEmpty;
+    final fullQuery = {
+      if (appendAuthParams) ..._authQueryParams(),
+      if (query != null) ...query,
+    };
 
-    String finalUrl = url;
-    if (appendAuthParams && hasToken && hasUserId) {
-      finalUrl = "$url?access-token=$tokenValue&id=$userIdValue";
-    }
-
-    return dio!.post(finalUrl, data: data, queryParameters: query);
+    return _dio().post(
+      url,
+      data: data,
+      queryParameters: fullQuery.isEmpty ? null : fullQuery,
+    );
   }
 
   static Future<Response> putData({
@@ -97,20 +122,19 @@ class DioHelper {
     required dynamic data,
     Map<String, dynamic>? query,
   }) async {
-    headers();
+    await _setHeaders();
 
-    final token = getIt<AuthStorage>().token;
-    final userId = getIt<AuthStorage>().userId;
-    final tokenValue = token?.trim();
-    final hasToken = tokenValue != null && tokenValue.isNotEmpty;
-    final userIdValue = userId?.trim();
-    final hasUserId = userIdValue != null && userIdValue.isNotEmpty;
+    final authParams = _authQueryParams();
+    final fullQuery = {
+      ...authParams,
+      if (query != null) ...query,
+    };
 
-    final finalUrl = (hasToken && hasUserId)
-        ? "$url?access-token=$tokenValue&id=$userIdValue"
-        : url;
-
-    return dio!.put(finalUrl, data: data, queryParameters: query);
+    return _dio().put(
+      url,
+      data: data,
+      queryParameters: fullQuery.isEmpty ? null : fullQuery,
+    );
   }
 
   static Future<Response> putDataWithAuth({
@@ -119,34 +143,34 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    await headers(withAuth: withAuth);
+    await _setHeaders(withAuth: withAuth);
 
-    final token = getIt<AuthStorage>().token;
-    final userId = getIt<AuthStorage>().userId;
-    final tokenValue = token?.trim();
-    final hasToken = tokenValue != null && tokenValue.isNotEmpty;
-    final userIdValue = userId?.trim();
-    final hasUserId = userIdValue != null && userIdValue.isNotEmpty;
+    final fullQuery = {
+      if (withAuth) ..._authQueryParams(),
+      if (query != null) ...query,
+    };
 
-    String finalUrl = url;
-    if (withAuth && hasToken && hasUserId) {
-      finalUrl = "$url?access-token=$tokenValue&id=$userIdValue";
-    }
-
-    return dio!.put(finalUrl, data: data, queryParameters: query);
+    return _dio().put(
+      url,
+      data: data,
+      queryParameters: fullQuery.isEmpty ? null : fullQuery,
+    );
   }
 
   static Future<Response> deleteData({
     required String url,
     Map<String, dynamic>? query,
   }) async {
-    headers();
+    await _setHeaders();
 
-    final token = getIt<AuthStorage>().token ?? '';
-    final userId = getIt<AuthStorage>().userId ?? '';
-    return dio!.delete(
-      "$url?access-token=$token&id=$userId",
-      queryParameters: query,
+    final fullQuery = {
+      ..._authQueryParams(),
+      if (query != null) ...query,
+    };
+
+    return _dio().delete(
+      url,
+      queryParameters: fullQuery.isEmpty ? null : fullQuery,
     );
   }
 
@@ -156,9 +180,8 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    await headers(withAuth: withAuth);
-
-    return dio!.delete(url, data: data, queryParameters: query);
+    await _setHeaders(withAuth: withAuth);
+    return _dio().delete(url, data: data, queryParameters: query);
   }
 
   static Future<Response> patchData({
@@ -167,8 +190,8 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    await headers(withAuth: withAuth);
-    return dio!.patch(url, data: data, queryParameters: query);
+    await _setHeaders(withAuth: withAuth);
+    return _dio().patch(url, data: data, queryParameters: query);
   }
 
   static Future<Response> postMultipartData({
@@ -176,13 +199,13 @@ class DioHelper {
     required FormData formData,
     bool withAuth = false,
   }) async {
-    final token = getIt<AuthStorage>().token;
+    final token = _validToken();
 
-    dio!.options.headers = {
+    _dio().options.headers = {
       'Accept': 'application/json',
       if (withAuth && token != null) 'Authorization': 'Bearer $token',
     };
 
-    return dio!.post(url, data: formData);
+    return _dio().post(url, data: formData);
   }
 }

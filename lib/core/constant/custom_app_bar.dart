@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       elevation: 0,
       centerTitle: true,
       title: Text(
@@ -25,9 +25,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: AppColors.black,
         ),
       ),
-      iconTheme: IconThemeData(color: AppColors.textPrimaryColor),
+      iconTheme: const IconThemeData(color: AppColors.textPrimaryColor),
       leading: back == false
-          ? SizedBox.shrink()
+          ? const SizedBox.shrink()
           : GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
@@ -40,8 +40,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 child: Center(
                   child: Icon(
-                    size: 25.sp,
                     Icons.arrow_back,
+                    size: 25.sp,
                     color: AppColors.white,
                   ),
                 ),

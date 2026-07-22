@@ -6,15 +6,16 @@ import '../repositories/categories_repository.dart';
 class GetCategoriesUsecase {
   final CategoriesRepository _repo;
   GetCategoriesUsecase(this._repo);
-
-  Future<Either<Failure, List<CategoryEntity>>> call({int perPage = 50}) =>
-      _repo.getCategories(perPage: perPage);
+  Future<Either<Failure, PaginatedCategoriesEntity>> call({
+    int perPage = 50,
+    int page = 1,
+  }) =>
+      _repo.getCategories(perPage: perPage, page: page);
 }
 
 class CreateCategoryUsecase {
   final CategoriesRepository _repo;
   CreateCategoryUsecase(this._repo);
-
   Future<Either<Failure, CategoryEntity>> call({
     required String name,
     String? slug,
@@ -32,7 +33,6 @@ class CreateCategoryUsecase {
 class UpdateCategoryUsecase {
   final CategoriesRepository _repo;
   UpdateCategoryUsecase(this._repo);
-
   Future<Either<Failure, CategoryEntity>> call(
     int id, {
     required String name,
@@ -52,6 +52,5 @@ class UpdateCategoryUsecase {
 class DeleteCategoryUsecase {
   final CategoriesRepository _repo;
   DeleteCategoryUsecase(this._repo);
-
   Future<Either<Failure, bool>> call(int id) => _repo.deleteCategory(id);
 }

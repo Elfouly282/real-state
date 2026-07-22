@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  colorful_iconify_flutter:
+    dependency: transitive
+    description:
+      name: colorful_iconify_flutter
+      sha256: "3f9ee56343bfc7a48c41b4abb97b6fbb4e97ce017c6174a85898a3b709b881d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   conditional_builder_null_safety:
     dependency: "direct main"
     description:
@@ -648,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  iconify_flutter:
+    dependency: "direct main"
+    description:
+      name: iconify_flutter
+      sha256: ad331a480c49284e3fb66a3896f04a9afa368147b0131897feff6aa0a8397ddb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   image:
     dependency: transitive
     description:
@@ -904,14 +920,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
-  pin_code_fields:
-    dependency: "direct main"
-    description:
-      name: pin_code_fields
-      sha256: "0ae83c636a3c1ae00bc09bb496bc554ea290b01dfe396e3c77e12d3a3f9207e9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.4.0"
   platform:
     dependency: transitive
     description:

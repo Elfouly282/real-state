@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
 class FontWeightManager {
-  static const FontWeight light = FontWeight.w400;
-  static const FontWeight bold = FontWeight.w700;
+  static const FontWeight thin      = FontWeight.w200;
+  static const FontWeight light     = FontWeight.w300;
+  static const FontWeight regular   = FontWeight.w400;
+  static const FontWeight medium    = FontWeight.w500;
+  static const FontWeight semiBold  = FontWeight.w600;
+  static const FontWeight bold      = FontWeight.w700;
+  static const FontWeight extraBold = FontWeight.w800;
 }
 
 class AppFonts {
-  // Font families
-  static const String questFont = 'Quest';
+  // Font family name for Poppins (loaded via google_fonts).
+  // Using the literal string avoids a runtime call to GoogleFonts.poppins()
+  // which cannot be const and causes "Invalid constant value" warnings.
+  static const String questFont = 'Poppins';
 
   // Font sizes
   static const double displayLarge = 57;

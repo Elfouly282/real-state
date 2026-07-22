@@ -6,7 +6,12 @@ import '../repositories/orders_repository.dart';
 class GetOrdersUsecase {
   final OrdersRepository _repo;
   GetOrdersUsecase(this._repo);
-  Future<Either<Failure, List<OrderEntity>>> call() => _repo.getOrders();
+  Future<Either<Failure, PaginatedOrdersEntity>> call({
+    int perPage = 30,
+    int page = 1,
+    String? status,
+  }) =>
+      _repo.getOrders(perPage: perPage, page: page, status: status);
 }
 
 class GetOrderUsecase {

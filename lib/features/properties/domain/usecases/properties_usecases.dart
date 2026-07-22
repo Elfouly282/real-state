@@ -6,7 +6,8 @@ import '../repositories/properties_repository.dart';
 class GetPropertiesUsecase {
   final PropertiesRepository _repo;
   GetPropertiesUsecase(this._repo);
-  Future<Either<Failure, List<PropertyEntity>>> call() => _repo.getProperties();
+  Future<Either<Failure, List<PropertyEntity>>> call({int perPage = 20}) =>
+      _repo.getProperties(perPage: perPage);
 }
 
 class GetPropertyUsecase {
@@ -18,13 +19,15 @@ class GetPropertyUsecase {
 class CreatePropertyUsecase {
   final PropertiesRepository _repo;
   CreatePropertyUsecase(this._repo);
-  Future<Either<Failure, PropertyEntity>> call(Map<String, dynamic> data) => _repo.createProperty(data);
+  Future<Either<Failure, PropertyEntity>> call(CreatePropertyParams params) =>
+      _repo.createProperty(params);
 }
 
 class UpdatePropertyUsecase {
   final PropertiesRepository _repo;
   UpdatePropertyUsecase(this._repo);
-  Future<Either<Failure, PropertyEntity>> call(int id, Map<String, dynamic> data) => _repo.updateProperty(id, data);
+  Future<Either<Failure, PropertyEntity>> call(int id, CreatePropertyParams params) =>
+      _repo.updateProperty(id, params);
 }
 
 class DeletePropertyUsecase {

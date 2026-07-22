@@ -17,7 +17,7 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
 
   Future<Either<Failure, T>> _run<T>(Future<T> Function() fn) async {
     if (!await _network.isConnected) {
-      return Left(NoInternetFailure(message: 'لا يوجد اتصال بالإنترنت'));
+      return Left(NoInternetFailure(message: 'No Internet Connection'));
     }
     try {
       return Right(await fn());
@@ -29,8 +29,8 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
   }
 
   @override
-  Future<Either<Failure, List<CategoryEntity>>> getCategories({int perPage = 50}) =>
-      _run(() => _remote.getCategories(perPage: perPage));
+  Future<Either<Failure, PaginatedCategoriesEntity>> getCategories({int perPage = 50, int page = 1}) =>
+      _run(() => _remote.getCategories(perPage: perPage, page: page));
 
   @override
   Future<Either<Failure, CategoryEntity>> getCategory(int id) =>

@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api/constant_API.dart';
 import '../../../../core/api/dio_helper.dart';
-import '../../../../core/errors/failure.dart';
+import '../../../../core/api/response_parser.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../models/auth_model.dart';
 
 abstract class AuthRemoteDatasource {
@@ -21,7 +22,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         data: {'email': email, 'password': password},
       );
 
-      // Response is a JSON array → take first element
       final raw = response.data;
       final Map<String, dynamic> firstItem;
 
@@ -30,12 +30,12 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       } else if (raw is Map<String, dynamic>) {
         firstItem = raw;
       } else {
-        throw ServerException('Unexpected response format');
+        throw const ServerException('Unexpected response format');
       }
 
       return AuthModel.fromJson(firstItem);
     } on DioException catch (e) {
-      throw ServerException(_extractMessage(e));
+      throw ServerException(ResponseParser.dioMessage(e));
     }
   }
 
@@ -49,18 +49,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       );
       return true;
     } on DioException catch (e) {
-      throw ServerException(_extractMessage(e));
+      throw ServerException(ResponseParser.dioMessage(e));
     }
-  }
-
-  String _extractMessage(DioException e) {
-    final data = e.response?.data;
-    if (data is List && data.isNotEmpty && data[0] is Map) {
-      return (data[0] as Map)['message'] as String? ?? e.message ?? 'Unknown error';
-    }
-    if (data is Map) {
-      return data['message'] as String? ?? e.message ?? 'Unknown error';
-    }
-    return e.message ?? 'Unknown error';
   }
 }

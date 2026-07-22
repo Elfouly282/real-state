@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../utils/app_colors.dart';
 import 'custom_logo.dart';
 
 class CachedImageWidget extends StatelessWidget {
@@ -13,7 +14,7 @@ class CachedImageWidget extends StatelessWidget {
     this.borderRadius,
     this.placeholder,
     this.errorWidget,
-    this.filterQuality = FilterQuality.none,
+    this.filterQuality = FilterQuality.low,
     this.enableHighQuality = false,
   });
 
@@ -38,46 +39,22 @@ class CachedImageWidget extends StatelessWidget {
         height: height,
         fit: fit,
         alignment: alignment,
-        // placeholder: (context, url) =>
-        //     placeholder ?? _buildDefaultPlaceholder(),
         errorWidget: (context, url, error) =>
             errorWidget ?? _buildDefaultErrorWidget(),
-        memCacheWidth: null,
-        memCacheHeight: null,
-        filterQuality: FilterQuality.none,
+        placeholder: placeholder != null ? (context, url) => placeholder! : null,
+        filterQuality: enableHighQuality ? FilterQuality.high : filterQuality,
         fadeInDuration: const Duration(milliseconds: 200),
         fadeOutDuration: const Duration(milliseconds: 100),
-        maxWidthDiskCache: null,
-        maxHeightDiskCache: null,
       ),
     );
   }
-
-  // Widget _buildDefaultPlaceholder() {
-  //   return Container(
-  //     width: width,
-  //     height: height,
-  //     decoration: BoxDecoration(
-  //       color: Colors.grey[200],
-  //       borderRadius: borderRadius,
-  //     ),
-  //     child: Center(
-  //       child: Image.asset(
-  //         Assets.png.babaLogo.path,
-  //         width: (width ?? 100) * 0.4,
-  //         height: (height ?? 100) * 0.4,
-  //         fit: BoxFit.contain,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildDefaultErrorWidget() {
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: AppColors.greychip,
         borderRadius: borderRadius,
       ),
       child: Center(
@@ -99,7 +76,7 @@ extension CachedImageWidgetExtension on String {
     BorderRadius? borderRadius,
     Widget? placeholder,
     Widget? errorWidget,
-    FilterQuality filterQuality = FilterQuality.none,
+    FilterQuality filterQuality = FilterQuality.low,
     bool enableHighQuality = false,
   }) {
     return CachedImageWidget(

@@ -19,7 +19,7 @@ class CustomSnackbar {
       snackBarType: isError ? SnackBarType.fail : SnackBarType.success,
       label: label,
       labelTextStyle: getRegularStyle(fontSize: 16.sp, color: AppColors.white),
-      iconColor: Colors.white,
+      iconColor: AppColors.white,
       backgroundColor: backgroundColor,
       maxLines: 2,
     );

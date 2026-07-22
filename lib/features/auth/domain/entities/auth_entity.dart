@@ -17,6 +17,5 @@ class AuthEntity {
     required this.tokenType,
   });
 
-  /// Full authorization header value e.g. "Bearer xxxx"
   String get authorizationHeader => '$tokenType $token';
 }

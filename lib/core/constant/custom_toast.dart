@@ -15,7 +15,7 @@ class CustomToast {
       gravity: gravity,
       timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: AppColors.successColor,
-      textColor: Colors.white,
+      textColor: AppColors.white,
       fontSize: AppFonts.bodyMedium,
     );
   }
@@ -31,7 +31,7 @@ class CustomToast {
       gravity: gravity,
       timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: AppColors.errorColor,
-      textColor: Colors.white,
+      textColor: AppColors.white,
       fontSize: AppFonts.bodyMedium,
     );
   }
@@ -47,7 +47,7 @@ class CustomToast {
       gravity: gravity,
       timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: AppColors.infoColor,
-      textColor: Colors.white,
+      textColor: AppColors.white,
       fontSize: AppFonts.bodyMedium,
     );
   }
@@ -63,7 +63,7 @@ class CustomToast {
       gravity: gravity,
       timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: AppColors.warningColor,
-      textColor: Colors.black87,
+      textColor: AppColors.darkColor,
       fontSize: AppFonts.bodyMedium,
     );
   }
@@ -81,7 +81,7 @@ class CustomToast {
       gravity: gravity,
       timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: backgroundColor ?? AppColors.primaryColor,
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? AppColors.white,
       fontSize: AppFonts.bodyMedium,
     );
   }

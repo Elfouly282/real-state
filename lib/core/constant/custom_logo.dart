@@ -9,11 +9,13 @@ class CustomLogo extends StatelessWidget {
     this.height,
     this.width,
     this.fit = BoxFit.contain,
+    this.color,
   });
 
   final double? height;
   final double? width;
   final BoxFit fit;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class CustomLogo extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
+      color: color,
     );
   }
 }

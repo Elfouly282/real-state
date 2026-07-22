@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
-import '../../../../../core/utils/app_colors.dart';
+import '../utils/app_colors.dart';
 import 'custom_textformfield.dart';
 
 class CustomDropdownField extends StatefulWidget {
@@ -95,7 +95,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
           textStyle: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: AppColors.white,
           ),
         ),
         clearButtonText: 'Clear',

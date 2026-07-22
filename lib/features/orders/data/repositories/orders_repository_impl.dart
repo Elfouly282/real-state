@@ -9,16 +9,34 @@ class OrdersRepositoryImpl implements OrdersRepository {
   final OrdersRemoteDatasource _remote;
   final NetworkInfo _network;
 
-  OrdersRepositoryImpl({required OrdersRemoteDatasource remote, required NetworkInfo network})
-      : _remote = remote, _network = network;
+  OrdersRepositoryImpl({
+    required OrdersRemoteDatasource remote,
+    required NetworkInfo network,
+  })  : _remote = remote,
+        _network = network;
 
   Future<Either<Failure, T>> _run<T>(Future<T> Function() fn) async {
-    if (!await _network.isConnected) return Left(NoInternetFailure(message: 'لا يوجد اتصال'));
-    try { return Right(await fn()); }
-    on ServerException catch (e) { return Left(ApiFailure(message: e.message)); }
-    catch (e) { return Left(ServiceFailure(message: e.toString())); }
+    if (!await _network.isConnected) {
+      return Left(NoInternetFailure(message: 'No Internet Connection'));
+    }
+    try {
+      return Right(await fn());
+    } on ServerException catch (e) {
+      return Left(ApiFailure(message: e.message));
+    } catch (e) {
+      return Left(ServiceFailure(message: e.toString()));
+    }
   }
 
-  @override Future<Either<Failure, List<OrderEntity>>> getOrders() => _run(_remote.getOrders);
-  @override Future<Either<Failure, OrderEntity>> getOrder(int id) => _run(() => _remote.getOrder(id));
+  @override
+  Future<Either<Failure, PaginatedOrdersEntity>> getOrders({
+    int perPage = 30,
+    int page = 1,
+    String? status,
+  }) =>
+      _run(() => _remote.getOrders(perPage: perPage, page: page, status: status));
+
+  @override
+  Future<Either<Failure, OrderEntity>> getOrder(int id) =>
+      _run(() => _remote.getOrder(id));
 }

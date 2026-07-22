@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api/constant_API.dart';
 import '../../../../core/api/dio_helper.dart';
-import '../../../../core/errors/failure.dart';
+import '../../../../core/api/response_parser.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../models/dashboard_model.dart';
 
 abstract class DashboardRemoteDatasource {
@@ -16,8 +17,6 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
         url: EndPoints.dashboard,
         withAuth: true,
       );
-
-      // Response is an array → first element → "data" key
       final raw = res.data;
       final Map<String, dynamic> json;
 
@@ -26,19 +25,12 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
       } else if (raw is Map<String, dynamic>) {
         json = raw;
       } else {
-        throw ServerException('Unexpected dashboard response format');
+        throw const ServerException('Unexpected dashboard response format');
       }
 
       return DashboardModel.fromJson(json);
     } on DioException catch (e) {
-      throw ServerException(_msg(e));
+      throw ServerException(ResponseParser.dioMessage(e));
     }
-  }
-
-  String _msg(DioException e) {
-    final d = e.response?.data;
-    if (d is List && d.isNotEmpty) return (d[0] as Map)['message'] ?? e.message ?? '';
-    if (d is Map) return d['message'] ?? e.message ?? '';
-    return e.message ?? 'Unknown error';
   }
 }

@@ -2,7 +2,10 @@ class AppConstants {
 
 
 
-  static const String arabicLangCode = 'ar';
+  static const double kBreakpointWide   = 900.0;
+  static const double kBreakpointMedium = 500.0;
+  static const double kBreakpointSidebar = 800.0;
+  static const String arabicLangCode  = 'ar';
   static const String englishLangCode = 'en';
 
   static const String lastAuthProviderCacheKey = 'last_auth_provider';

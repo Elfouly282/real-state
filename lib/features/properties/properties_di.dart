@@ -7,22 +7,31 @@ import 'domain/usecases/properties_usecases.dart';
 import 'presentation/cubit/properties_cubit.dart';
 
 void initPropertiesModule() {
-  if (!getIt.isRegistered<PropertiesRemoteDatasource>())
-    getIt.registerLazySingleton<PropertiesRemoteDatasource>(() => PropertiesRemoteDatasourceImpl());
-
-  if (!getIt.isRegistered<PropertiesRepository>())
+  if (!getIt.isRegistered<PropertiesRemoteDatasource>()) {
+    getIt.registerLazySingleton<PropertiesRemoteDatasource>(
+        () => PropertiesRemoteDatasourceImpl());
+  }
+  if (!getIt.isRegistered<PropertiesRepository>()) {
     getIt.registerLazySingleton<PropertiesRepository>(
-        () => PropertiesRepositoryImpl(remote: getIt(), network: getIt<NetworkInfo>()));
-
-  if (!getIt.isRegistered<GetPropertiesUsecase>())
+        () => PropertiesRepositoryImpl(
+            remote: getIt(), network: getIt<NetworkInfo>()));
+  }
+  if (!getIt.isRegistered<GetPropertiesUsecase>()) {
     getIt.registerLazySingleton(() => GetPropertiesUsecase(getIt()));
-  if (!getIt.isRegistered<DeletePropertyUsecase>())
-    getIt.registerLazySingleton(() => DeletePropertyUsecase(getIt()));
-  if (!getIt.isRegistered<CreatePropertyUsecase>())
+  }
+  if (!getIt.isRegistered<GetPropertyUsecase>()) {
+    getIt.registerLazySingleton(() => GetPropertyUsecase(getIt()));
+  }
+  if (!getIt.isRegistered<CreatePropertyUsecase>()) {
     getIt.registerLazySingleton(() => CreatePropertyUsecase(getIt()));
-  if (!getIt.isRegistered<UpdatePropertyUsecase>())
+  }
+  if (!getIt.isRegistered<UpdatePropertyUsecase>()) {
     getIt.registerLazySingleton(() => UpdatePropertyUsecase(getIt()));
-
-  if (!getIt.isRegistered<PropertiesCubit>())
+  }
+  if (!getIt.isRegistered<DeletePropertyUsecase>()) {
+    getIt.registerLazySingleton(() => DeletePropertyUsecase(getIt()));
+  }
+  if (!getIt.isRegistered<PropertiesCubit>()) {
     getIt.registerFactory(() => PropertiesCubit(getIt(), getIt()));
+  }
 }
