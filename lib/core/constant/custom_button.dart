@@ -38,7 +38,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: isLoading ? null : onTap,
-      borderRadius: BorderRadius.circular((borderRadius ?? 10).r),
+      borderRadius: BorderRadius.circular((borderRadius ?? 10)),
       child: Container(
         height: height ?? 60.h,
         width: width,
@@ -48,7 +48,7 @@ class CustomButton extends StatelessWidget {
             color: bordercolor ?? AppColors.primaryColor,
             width: 1.2,
           ),
-          borderRadius: BorderRadius.circular((borderRadius ?? 10).r),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10),
         ),
         child: Center(
           child: ConditionalBuilder(

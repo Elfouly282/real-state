@@ -44,12 +44,12 @@ class _PinCodeFieldsState extends State<PinCodeFields> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       theme: MaterialPinTheme(
         shape: MaterialPinShape.circle,
-        borderColor: AppColors.pink,
+        borderColor: AppColors.infoColor,
         cursorColor: AppColors.pink,
         fillColor: AppColors.yello,
         disabledColor: AppColors.bordergrey,
-        cellSize: const Size(56, 56),
-        spacing: 8.0,
+        cellSize: const Size(50, 50),
+        spacing: 6.0,
       ),
     );
   }
