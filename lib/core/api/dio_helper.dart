@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'constant_API.dart';
-import '../constant/app_constants.dart';
 import '../di.dart';
 import '../funcations/app_functions.dart';
 import '../security/security_helper.dart';
@@ -31,7 +30,8 @@ class DioHelper {
   }
 
   static Future<void> headers({bool withAuth = false}) async {
-    final token = getIt<AuthStorage>().token;
+    final token = "666|tGwRhcs0n4CoFkZ0E8oZOKz9Y42kGmKaf0gsrDUF04f84f63";
+    //  getIt<AuthStorage>().token;
     final lang = AppFunctions.getLanguageCode();
     final tokenValue = token?.trim();
     final hasToken = tokenValue != null && tokenValue.isNotEmpty;
