@@ -26,8 +26,13 @@ class _AppLauncherState extends State<AppLauncher> {
   }
 
   Future<void> checkAppState() async {
-    final isOnBoardingDone =
-        CacheHelper().getDataBool(key: 'OnBoarding') ?? false;
+    bool isOnBoardingDone = false;
+    try {
+      isOnBoardingDone =
+          CacheHelper.sharedPreferences.getBool('OnBoarding') ?? false;
+    } catch (_) {
+      // sharedPreferences not yet initialised — treat as first launch
+    }
     final token = getIt<AuthStorage>().token;
 
     if (!isOnBoardingDone) {
