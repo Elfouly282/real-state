@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
 import 'constant_API.dart';
-import '../constant/app_constants.dart';
 import '../di.dart';
 import '../funcations/app_functions.dart';
 import '../security/security_helper.dart';

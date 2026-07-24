@@ -1,10 +1,53 @@
+import 'package:dio/dio.dart';
+
 import 'failure.dart';
+import 'remote_exception.dart';
 
 class ErrorHandler implements Exception {
-  late Failure failure;
+  final Failure failure;
 
-  ErrorHandler.handle(dynamic error) {
-    // failure = DataSource.unKnown.getFailure();
+  ErrorHandler.fromError(dynamic error) : failure = mapFailure(error);
+
+  static Failure handle(dynamic error) => mapFailure(error);
+
+  static Failure mapFailure(dynamic error) {
+    if (error is Failure) {
+      return error;
+    }
+    if (error is RemoteException) {
+      return ApiFailure(message: error.message);
+    }
+    if (error is ServerException) {
+      return ApiFailure(message: error.message);
+    }
+    if (error is DioException) {
+      return _mapDioException(error);
+    }
+    return ServiceFailure(message: error.toString());
+  }
+
+  static Failure _mapDioException(DioException error) {
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+        return ServiceFailure(message: error.message ?? 'Request timeout');
+      case DioExceptionType.connectionError:
+        return NoInternetFailure(
+          message: error.message ?? 'No internet connection',
+        );
+      case DioExceptionType.cancel:
+        return ServiceFailure(message: 'Request cancelled');
+      case DioExceptionType.badCertificate:
+        return ServiceFailure(message: 'Bad certificate');
+      default:
+        final statusCode = error.response?.statusCode;
+        final statusMessage = error.response?.statusMessage;
+        if (statusCode != null) {
+          return ApiFailure(message: '$statusCode, $statusMessage');
+        }
+        return ServiceFailure(message: error.message ?? 'Unknown error');
+    }
   }
 }
 
@@ -20,39 +63,4 @@ enum DataSource {
   unKnown,
 }
 
-// extension DataSourceExtension on DataSource {
-//   Failure getFailure() {
-//     switch (this) {
-//       case DataSource.connectionTimeout:
-//         return ServiceFailure(message: ResponseMessage.connectionTimeout);
-//       case DataSource.cancel:
-//         return ServiceFailure(message: ResponseMessage.cancel);
-//       case DataSource.receiveTimeout:
-//         return ServiceFailure(message: ResponseMessage.receiveTimeout);
-//       case DataSource.sendTimeout:
-//         return ServiceFailure(message: ResponseMessage.sendTimeout);
-//       case DataSource.cacheError:
-//         return ServiceFailure(message: ResponseMessage.cacheError);
-//       case DataSource.noInternetConnection:
-//         return NoInternetFailure(message: ResponseMessage.noInternetConnection);
-//       case DataSource.unKnown:
-//         return ServiceFailure(message: ResponseMessage.unKnown);
-//       case DataSource.badCertificate:
-//         return ServiceFailure(message: ResponseMessage.badCertificate);
-//       case DataSource.connectionError:
-//         return ApiFailure(message: ResponseMessage.connectionError);
-//     }
-//   }
-// }
-
-class ResponseMessage {
-  // static const String connectionTimeout = AppTexts.timeoutError;
-  // static const String cancel = AppTexts.requestCanceled;
-  // static const String receiveTimeout = AppTexts.timeoutError;
-  // static const String sendTimeout = AppTexts.timeoutError;
-  // static const String cacheError = AppTexts.cacheError;
-  // static const String noInternetConnection = AppTexts.noInternetError;
-  // static const String unKnown = AppTexts.unKnownError;
-  // static const String badCertificate = AppTexts.badCertificate;
-  // static const String connectionError = AppTexts.connectionError;
-}
+class ResponseMessage {}

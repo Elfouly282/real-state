@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app/app_admin.dart';
 import 'core/bloc observe/bloc_service.dart';
 import 'core/di.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

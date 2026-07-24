@@ -77,4 +77,20 @@ class AppColors {
   static Color getAdaptiveBorderColor(BuildContext context) {
     return borderColor;
   }
+
+  // Payment Feature Colors
+  static const Color paymentTeal = Color(0xFF1392A6);
+  static const Color darkTeal = Color(0xFF00838F);
+  static const Color lightGreenBg = Color(0xFFEFFBEE);
+  static const Color darkGreenText = Color(0xFF2E6930);
+  static const Color successGreenIcon = Color(0xFF4CAF50);
+  static const Color offWhiteBg = Color(0xFFF8F9FA);
+  static const Color visaBlue = Color(0xFF1A1F71);
+  static const Color lightCyanBtn = Color(0xFFC7F8FF);
+  static const Color mastercardRed = Color(0xFFEB001B);
+  static const Color mastercardOrange = Color(0xFFF79E1B);
+  static const Color bankOfAmericaBlue = Color(0xFF00529B);
+  static const Color bankOfAmericaRed = Color(0xFFD1242B);
+  static const Color hsbcRed = Color(0xFFDB0011);
+  static const Color greenBankColor = Color(0xFF00A859);
 }

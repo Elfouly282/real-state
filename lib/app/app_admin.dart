@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/utils/app_colors.dart';
 
-
 class AppAdmin extends StatelessWidget {
   const AppAdmin({super.key});
 
