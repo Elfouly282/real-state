@@ -38,14 +38,17 @@ class _PropertyCardState extends State<PropertyCard> {
           children: [
             Stack(
               children: [
-                CachedImageWidget(
-                  imageUrl: widget.property.images.first.url,
-                  width: double.infinity,
-                  height: 147.h,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12.r),
-                    topRight: Radius.circular(12.r),
+                AspectRatio(
+                  aspectRatio: 227 / 147,
+                  child: CachedImageWidget(
+                    imageUrl: widget.property.images.first.url,
+                    width: double.infinity,
+
+                    fit: BoxFit.cover,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12.r),
+                      topRight: Radius.circular(12.r),
+                    ),
                   ),
                 ),
 
@@ -71,7 +74,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         Text(
                           "For Sale",
                           style: getMediumStyle(
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             color: AppColors.black,
                           ),
                         ),
@@ -103,9 +106,11 @@ class _PropertyCardState extends State<PropertyCard> {
                         ),
                       ),
                       IconButton(
+                        iconSize: 22.sp,
+                        padding: EdgeInsets.zero,
                         icon: isFavorite
-                            ? Icon(Icons.star, size: 24, color: AppColors.yello)
-                            : Icon(Icons.star_border, size: 24),
+                            ? Icon(Icons.star, color: AppColors.yello)
+                            : Icon(Icons.star_border),
                         onPressed: () {
                           setState(() {
                             isFavorite = !isFavorite;
@@ -122,7 +127,7 @@ class _PropertyCardState extends State<PropertyCard> {
                     children: [
                       Icon(
                         Icons.location_on_outlined,
-                        size: 16,
+                        size: 16.sp,
                         color: Color(0xff1597A8),
                       ),
                       SizedBox(width: 4.w),
@@ -132,7 +137,7 @@ class _PropertyCardState extends State<PropertyCard> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: getRegularStyle(
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             color: AppColors.black.withOpacity(.52),
                           ),
                         ),
@@ -145,14 +150,14 @@ class _PropertyCardState extends State<PropertyCard> {
                       SizedBox(width: 4.w),
                       Icon(
                         Icons.navigation_outlined,
-                        size: 16,
+                        size: 16.sp,
                         color: Color(0xff1597A8),
                       ),
                       SizedBox(width: 4.w),
                       Text(
                         widget.property.distance.toString(),
                         style: getRegularStyle(
-                          fontSize: 10,
+                          fontSize: 10.sp,
                           color: AppColors.black.withOpacity(.52),
                         ),
                       ),

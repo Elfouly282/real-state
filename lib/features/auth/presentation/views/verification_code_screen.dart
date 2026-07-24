@@ -22,14 +22,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
-              reverse: true,
               child: Column(
                 children: [
                   CustomPngImage(

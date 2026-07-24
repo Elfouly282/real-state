@@ -48,14 +48,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       builder: (context, state) {
         final isLoading = state is AuthLoading;
         return Scaffold(
-          resizeToAvoidBottomInset: true,
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
-                  reverse: true,
                   child: Column(
                     children: [
                       CustomPngImage(

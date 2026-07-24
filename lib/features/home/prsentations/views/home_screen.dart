@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+<<<<<<< HEAD
 import 'package:real_state/core/App_routes/app_route.dart';
+=======
+>>>>>>> c438fbf (Update home)
 import 'package:real_state/core/constant/search_text_filed.dart';
 import 'package:real_state/core/di.dart';
 import 'package:real_state/core/utils/app_colors.dart';
 import 'package:real_state/core/utils/app_styles.dart';
+import 'package:real_state/features/home/domain/entity/home_entity.dart';
+import 'package:real_state/features/home/domain/entity/category_entity.dart';
+import 'package:real_state/features/home/domain/entity/property_entity.dart';
+import 'package:real_state/features/home/domain/entity/image_entity.dart';
 import 'package:real_state/features/home/prsentations/cubit/home_cubit.dart';
 import 'package:real_state/features/home/prsentations/cubit/home_state.dart';
 import 'package:real_state/features/home/prsentations/views/category_chip.dart';
 import 'package:real_state/features/home/prsentations/views/nearest_property_card.dart';
 import 'package:real_state/features/home/prsentations/views/property_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +26,67 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+final _dummyHomeData = HomeEntity(
+  categories: List.generate(
+    5,
+    (index) => CategoryEntity(id: index, name: 'Category $index'),
+  ),
+  bestSelling: List.generate(
+    3,
+    (index) => PropertyEntity(
+      id: index,
+      title: 'Beautiful Villa Suite $index',
+      description: 'A gorgeous luxury villa located in the heart of the city.',
+      price: '1,200,000',
+      address: 'Beverly Hills, California',
+      latitude: 34.0736,
+      longitude: -118.4004,
+      rate: 4.8,
+      category: CategoryEntity(id: index, name: 'Category $index'),
+      images: const [
+        ImageEntity(id: 1, url: 'https://via.placeholder.com/150'),
+      ],
+      distance: 1.5,
+    ),
+  ),
+  featured: List.generate(
+    3,
+    (index) => PropertyEntity(
+      id: index,
+      title: 'Featured Residence $index',
+      description: 'A gorgeous luxury villa located in the heart of the city.',
+      price: '950,000',
+      address: 'Los Angeles, California',
+      latitude: 34.0522,
+      longitude: -118.2437,
+      rate: 4.7,
+      category: CategoryEntity(id: index, name: 'Category $index'),
+      images: const [
+        ImageEntity(id: 1, url: 'https://via.placeholder.com/150'),
+      ],
+      distance: 2.3,
+    ),
+  ),
+  recommended: List.generate(
+    3,
+    (index) => PropertyEntity(
+      id: index,
+      title: 'Premium Apartment $index',
+      description: 'A gorgeous luxury villa located in the heart of the city.',
+      price: '800,000',
+      address: 'Santa Monica, California',
+      latitude: 34.0194,
+      longitude: -118.4912,
+      rate: 4.6,
+      category: CategoryEntity(id: index, name: 'Category $index'),
+      images: const [
+        ImageEntity(id: 1, url: 'https://via.placeholder.com/150'),
+      ],
+      distance: 3.1,
+    ),
+  ),
+);
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
@@ -32,14 +101,19 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is HomeError) {
             print(state.message);
             return Center(child: Text(state.message));
-          } else if (state is HomeLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is HomeSuccess) {
-            final homeData = state.home;
-            return Scaffold(
-              backgroundColor: Color(0xffFAF9F6),
+          }
+          print(state.runtimeType);
 
-              body: SafeArea(
+          final isLoading = state is HomeLoading || state is HomeInitial;
+          final homeData = isLoading
+              ? _dummyHomeData
+              : (state as HomeSuccess).home;
+
+          return Scaffold(
+            backgroundColor: const Color(0xffFAF9F6),
+            body: SafeArea(
+              child: Skeletonizer(
+                enabled: isLoading,
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
@@ -52,8 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.location_on_outlined,
-                            size: 34,
-                            color: Color(0xff1597A8),
+                            size: 34.sp,
+                            color: const Color(0xff1597A8),
                           ),
                           SizedBox(width: 8.w),
                           Column(
@@ -61,9 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 "location",
-
                                 style: getRegularStyle(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   color: AppColors.black.withOpacity(.52),
                                 ),
                               ),
@@ -73,13 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: getRegularStyle(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   color: AppColors.black,
                                 ),
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           InkWell(
                             onTap: () {},
                             child: Container(
@@ -89,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(24.r),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.notifications_outlined,
                                 color: AppColors.black,
                               ),
@@ -98,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(width: 12.w),
                           InkWell(
                             onTap: () {},
-
                             child: Container(
                               width: 56.w,
                               height: 56.h,
@@ -106,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(24.r),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.message_outlined,
                                 color: AppColors.black,
                               ),
@@ -138,7 +210,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(24.r),
                               ),
-                              child: Icon(Icons.tune, color: AppColors.black),
+                              child: const Icon(
+                                Icons.tune,
+                                color: AppColors.black,
+                              ),
                             ),
                           ),
                         ],
@@ -183,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             "Best Offers",
                             style: getBoldStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               color: AppColors.black,
                             ),
                           ),
@@ -192,8 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               "View All",
                               style: getRegularStyle(
-                                fontSize: 12,
-                                color: Color(0xff1597A8),
+                                fontSize: 12.sp,
+                                color: const Color(0xff1597A8),
                               ),
                             ),
                           ),
@@ -203,10 +278,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(height: 15.h),
 
                       SizedBox(
-                        height: 259.h,
+                        height: 270.h,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: homeData.bestSelling.length,
                           separatorBuilder: (_, __) => SizedBox(width: 15.w),
                           itemBuilder: (context, index) {
                             return PropertyCard(
@@ -232,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             "Nearest You",
                             style: getBoldStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               color: AppColors.black,
                             ),
                           ),
@@ -242,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               "View All",
                               style: getRegularStyle(
                                 fontSize: 12,
-                                color: Color(0xff1597A8),
+                                color: const Color(0xff1597A8),
                               ),
                             ),
                           ),
@@ -254,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: homeData.recommended.length,
                         separatorBuilder: (_, __) => SizedBox(height: 15.h),
                         itemBuilder: (context, index) {
                           return NearestPropertyCard(
@@ -273,10 +348,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
+            ),
+          );
         },
       ),
     );

@@ -77,13 +77,11 @@ class _NearestPropertyCardState extends State<NearestPropertyCard> {
                           ),
                         ),
                         IconButton(
+                          padding: EdgeInsets.zero,
+                          iconSize: 22.sp,
                           icon: isFavorite
-                              ? Icon(
-                                  Icons.star,
-                                  size: 24,
-                                  color: AppColors.yello,
-                                )
-                              : Icon(Icons.star_border, size: 24),
+                              ? Icon(Icons.star, color: AppColors.yello)
+                              : Icon(Icons.star_border),
                           onPressed: () {
                             setState(() {
                               isFavorite = !isFavorite;
@@ -100,7 +98,7 @@ class _NearestPropertyCardState extends State<NearestPropertyCard> {
                       children: [
                         Icon(
                           Icons.location_on_outlined,
-                          size: 16,
+                          size: 16.sp,
                           color: Color(0xff1597A8),
                         ),
                         SizedBox(width: 4.w),
@@ -110,7 +108,7 @@ class _NearestPropertyCardState extends State<NearestPropertyCard> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: getRegularStyle(
-                              fontSize: 10,
+                              fontSize: 10.sp,
                               color: AppColors.black.withOpacity(.52),
                             ),
                           ),
@@ -123,14 +121,14 @@ class _NearestPropertyCardState extends State<NearestPropertyCard> {
                         SizedBox(width: 4.w),
                         Icon(
                           Icons.navigation_outlined,
-                          size: 16,
+                          size: 16.sp,
                           color: Color(0xff1597A8),
                         ),
                         SizedBox(width: 4.w),
                         Text(
                           "${widget.prop.distance} mile",
                           style: getRegularStyle(
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             color: AppColors.black.withOpacity(.52),
                           ),
                         ),
@@ -145,13 +143,15 @@ class _NearestPropertyCardState extends State<NearestPropertyCard> {
                       children: [
                         Text(
                           "\$${widget.prop.price}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: getBoldStyle(
                             fontSize: 16.sp,
                             color: AppColors.black,
                           ),
                         ),
                         Spacer(),
-                        Icon(Icons.star, size: 16, color: AppColors.yello),
+                        Icon(Icons.star, size: 16.sp, color: AppColors.yello),
 
                         SizedBox(width: 4.w),
                         Text(
