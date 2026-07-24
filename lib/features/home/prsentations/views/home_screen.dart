@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:real_state/core/constant/custom_app_bar.dart';
+import 'package:real_state/core/App_routes/app_route.dart';
 import 'package:real_state/core/constant/search_text_filed.dart';
 import 'package:real_state/core/di.dart';
 import 'package:real_state/core/utils/app_colors.dart';
@@ -210,7 +210,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           separatorBuilder: (_, __) => SizedBox(width: 15.w),
                           itemBuilder: (context, index) {
                             return PropertyCard(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoute.propertyDetails,
+                                  arguments: homeData.bestSelling[index].id,
+                                );
+                              },
                               property: homeData.bestSelling[index],
                             );
                           },
@@ -252,7 +258,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         separatorBuilder: (_, __) => SizedBox(height: 15.h),
                         itemBuilder: (context, index) {
                           return NearestPropertyCard(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.propertyDetails,
+                                arguments: homeData.recommended[index].id,
+                              );
+                            },
                             prop: homeData.recommended[index],
                           );
                         },

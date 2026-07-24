@@ -30,8 +30,7 @@ class DioHelper {
   }
 
   static Future<void> headers({bool withAuth = false}) async {
-    final token = "666|tGwRhcs0n4CoFkZ0E8oZOKz9Y42kGmKaf0gsrDUF04f84f63";
-    //  getIt<AuthStorage>().token;
+    final token = getIt<AuthStorage>().token;
     final lang = AppFunctions.getLanguageCode();
     final tokenValue = token?.trim();
     final hasToken = tokenValue != null && tokenValue.isNotEmpty;
