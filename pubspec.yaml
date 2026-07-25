@@ -53,7 +53,7 @@ dependencies:
   flutter_svg: ^2.3.0
   pin_code_fields: ^9.4.0
   flutter_icon_snackbar: ^1.2.1
-  fluttertoast: ^9.0.0
+  fluttertoast: ^9.1.0
   google_fonts: ^6.3.2
   dartz: ^0.10.1
 
