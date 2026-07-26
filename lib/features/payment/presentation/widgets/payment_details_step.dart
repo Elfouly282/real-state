@@ -62,8 +62,6 @@ class PaymentDetailsStepBody extends StatelessWidget {
               Divider(height: 40.h),
               const InsuranceSection(),
               Divider(height: 40.h),
-              // const PaymentMethodSection(),
-              Divider(height: 40.h),
               PriceDetailsSection(
                 housePrice: summary.price,
                 serviceFee: '250',
