@@ -34,7 +34,7 @@ class AppUser extends StatelessWidget {
         create: (context) => getIt<PaymentCubit>(),
         child: PaymentView(
           propertySummary: PropertySummaryEntity(
-            id: 107,
+            id: 121,
             title: 'Sunnyslade House',
             address: 'Beverly Hills, CA',
             imageUrl:

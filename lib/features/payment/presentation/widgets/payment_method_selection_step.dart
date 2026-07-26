@@ -20,7 +20,7 @@ class _PaymentMethodSelectionStepBodyState
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      // padding: EdgeInsets.symmetric( vertical: 16.h),
       children: [
         const PaymentStepperHeader(currentStep: 2),
         SizedBox(height: 24.h),
