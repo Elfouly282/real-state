@@ -48,7 +48,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.width ?? 1.sw,
       child: GestureDetector(
         onTap: () => _showDropdown(),

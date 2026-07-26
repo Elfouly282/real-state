@@ -12,7 +12,7 @@ class FavoriteFolderCardWidget extends StatelessWidget {
     required this.subtitle,
     required this.images,
     required this.onTap,
-  }) ;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class FavoriteFolderCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // شبكة الصور 2x2
               AspectRatio(
                 aspectRatio: 1,
                 child: ClipRRect(
@@ -45,18 +44,20 @@ class FavoriteFolderCardWidget extends StatelessWidget {
                     ),
                     itemCount: 4,
                     itemBuilder: (context, index) {
-                      return Image.network(
-                        images[index],
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(color: Colors.grey.shade300),
-                      );
+                      final hasImage = index < images.length;
+                      return hasImage
+                          ? Image.network(
+                              images[index],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(color: Colors.grey.shade300),
+                            )
+                          : Container(color: Colors.grey.shade200);
                     },
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              // العنوان والوقت
               Text(
                 title,
                 style: const TextStyle(

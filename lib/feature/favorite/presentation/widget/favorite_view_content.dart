@@ -18,13 +18,24 @@ class FavoriteViewContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              // الهيدر وشريط البحث معيد استخدامهم لتوحيد الهوية
+
               const LocationHeaderWidget(),
               const SizedBox(height: 16),
-              const SearchBarWidget(),
+               SearchBarWidget(
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const FavoriteDetailesContent(
+                            categoryTitle: 'Apartment',
+                          ), 
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 20),
 
-              // عنوان الشاشة
               const Text(
                 'Your Favorite',
                 style: TextStyle(
@@ -35,7 +46,6 @@ class FavoriteViewContent extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // شبكة كروت المجموعات (Grid / Row)
               Row(
                 children: [
                   Expanded(
@@ -49,7 +59,6 @@ class FavoriteViewContent extends StatelessWidget {
                         'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
                       ],
                       onTap: () {
-                        // الانتقال لشاشة التفاصيل عند الضغط
                         Navigator.push(
                           context,
                           MaterialPageRoute(

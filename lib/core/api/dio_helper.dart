@@ -62,7 +62,7 @@ class DioHelper {
     final fullQuery = {
       if (appendAuthParams && hasToken && hasUserId) "access-token": tokenValue,
       if (appendAuthParams && hasToken && hasUserId) "id": userIdValue,
-      if (query != null) ...query,
+      ...?query,
     };
 
     return dio!.get(url, queryParameters: fullQuery.isEmpty ? null : fullQuery);
