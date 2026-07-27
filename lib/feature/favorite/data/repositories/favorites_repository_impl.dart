@@ -17,16 +17,16 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
   @override
   Future<Either<Failure, List<PropertyEntity>>> getFavorites() async {
-    // 3. يمكنك الآن استخدام networkInfo للتحقق من الاتصال
+    // Check network connection
     if (!await networkInfo.isConnected) {
-      return Left(ApiFailure(message: 'لا يوجد اتصال بالإنترنت'));
+      return Left(ApiFailure(message: 'No internet connection'));
     }
 
     try {
       final result = await remoteDataSource.getFavorites();
       return Right(result);
     } on DioException catch (e) {
-      final message = e.response?.data['message'] ?? e.message ?? 'حدث خطأ في الاتصال بالسيرفر';
+      final message = e.response?.data['message'] ?? e.message ?? 'A server connection error occurred';
       return Left(ApiFailure(message: message));
     } catch (e) {
       return Left(ApiFailure(message: e.toString()));
@@ -36,14 +36,14 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<Either<Failure, Unit>> toggleFavorite({required int propertyId}) async {
     if (!await networkInfo.isConnected) {
-      return Left(ApiFailure(message: 'لا يوجد اتصال بالإنترنت'));
+      return Left(ApiFailure(message: 'No internet connection'));
     }
 
     try {
       await remoteDataSource.toggleFavorite(propertyId: propertyId);
       return const Right(unit);
     } on DioException catch (e) {
-      final message = e.response?.data['message'] ?? e.message ?? 'حدث خطأ أثناء تحديث المفضلة';
+      final message = e.response?.data['message'] ?? e.message ?? 'An error occurred while updating favorites';
       return Left(ApiFailure(message: message));
     } catch (e) {
       return Left(ApiFailure(message: e.toString()));

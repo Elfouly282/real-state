@@ -21,26 +21,30 @@ class ProfileMenuCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // القسم الأول: Account Setting
+          // Section 1: Account Setting
           const SectionHeaderWidget(title: 'Account Setting'),
           MenuItemWidget(
             icon: Icons.person_outline,
             title: 'Personal Information',
             onTap: () {
-              final state = context.read<ProfileCubit>().state;
-              if (state is ProfileSuccess) {
+              final cubit = context.read<ProfileCubit>();
+              final profile = cubit.currentProfile ??
+                  (cubit.state is ProfileSuccess
+                      ? (cubit.state as ProfileSuccess).profile
+                      : null);
+
+              if (profile != null) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => BlocProvider.value(
-                      value: context
-                          .read<
-                            ProfileCubit
-                          >(), // نمرر نفس الـ Cubit للشاشة التالية
-                      child: UpdateProfilePage(currentProfile: state.profile),
+                      value: cubit,
+                      child: UpdateProfilePage(currentProfile: profile),
                     ),
                   ),
                 );
+              } else {
+                cubit.getProfile();
               }
             },
           ),
@@ -51,7 +55,7 @@ class ProfileMenuCardWidget extends StatelessWidget {
           ),
           const Divider(height: 32),
 
-          // القسم الثاني: Payment
+          // Section 2: Payment
           const SectionHeaderWidget(title: 'Payment'),
           MenuItemWidget(
             icon: Icons.credit_card_outlined,
@@ -60,22 +64,22 @@ class ProfileMenuCardWidget extends StatelessWidget {
           ),
           const Divider(height: 32),
 
-          // القسم الثالث: Setting & Security
+          // Section 3: Setting & Security
           const SectionHeaderWidget(title: 'Setting & Security'),
           MenuItemWidget(
             icon: Icons.lock_outline,
             title: 'Change Password',
             onTap: () {
               Navigator.push(
-      context,
-      MaterialPageRoute(
-        // استخدام BlocProvider.value لضمان وصول الشاشة لنفس نسخة الـ ProfileCubit
-        builder: (_) => BlocProvider.value(
-          value: context.read<ProfileCubit>(),
-          child: const ChangePasswordView(),
-        ),
-      ),
-    );
+                context,
+                MaterialPageRoute(
+                  // Pass the same ProfileCubit instance to ChangePasswordView
+                  builder: (_) => BlocProvider.value(
+                    value: context.read<ProfileCubit>(),
+                    child: const ChangePasswordView(),
+                  ),
+                ),
+              );
             },
           ),
           MenuItemWidget(

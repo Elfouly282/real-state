@@ -12,6 +12,7 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
   Future<List<FavoritePropertyModel>> getFavorites() async {
     final response = await DioHelper.getData(
       url: '/api/v1/favorites',
+      withAuth: true,
     );
 
 
@@ -25,6 +26,7 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
   Future<void> toggleFavorite({required int propertyId}) async {
     await DioHelper.postData(
       url: '/api/v1/favorites',
+      withAuth: true,
       data: {
         'property_id': propertyId,
       },

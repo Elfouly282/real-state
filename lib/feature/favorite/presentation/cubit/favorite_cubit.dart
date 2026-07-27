@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:real_state/feature/favorite/domain/entity/property_entity.dart';
 import 'package:real_state/feature/favorite/domain/usecases/get_favorites_usecase.dart';
 import 'package:real_state/feature/favorite/domain/usecases/toggle_favorite_usecase.dart';
@@ -17,7 +17,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     required this.toggleFavoriteUseCase,
   }) : super(FavoritesInitial());
 
-  // أ) جلب قائمة المفضلة من السيرفر
+  // Fetch favorites list from server
   Future<void> getFavorites() async {
     emit(FavoritesLoading());
 

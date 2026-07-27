@@ -52,8 +52,11 @@ class FavoritePropertyItemCard extends StatelessWidget {
                   backgroundColor: Colors.white.withValues(alpha: 0.9),
                   child: IconButton(
                     icon: Icon(
-                      property.isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                      color: property.isFavorite ? Colors.red : Colors.grey,
+                      property.isFavorite
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
+                      color: property.isFavorite ? Colors.amber : Colors.grey,
+                      size: 24,
                     ),
                     onPressed: onFavoriteToggle,
                   ),

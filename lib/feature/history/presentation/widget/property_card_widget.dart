@@ -12,6 +12,10 @@ class PropertyCardWidget extends StatelessWidget {
   final String price;
   final String rating;
 
+  final bool isFavorite;
+  final VoidCallback? onFavoriteToggle;
+  final VoidCallback? onDelete;
+
   const PropertyCardWidget({
     super.key,
     required this.imageUrl,
@@ -24,7 +28,10 @@ class PropertyCardWidget extends StatelessWidget {
     required this.bookingTime,
     required this.price,
     required this.rating,
-  }) ;
+    this.isFavorite = false,
+    this.onFavoriteToggle,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +73,7 @@ class PropertyCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 2. العنوان والأيقونة المفضلة
+                // 2. العنوان والأيقونات (نجمة المفضلة + الحذف)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -80,7 +87,27 @@ class PropertyCardWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Icon(Icons.star_outline_rounded, color: Colors.amber, size: 22),
+                    Row(
+                      children: [
+                        if (onDelete != null)
+                          IconButton(
+                            constraints: const BoxConstraints(),
+                            padding: const EdgeInsets.only(right: 8),
+                            icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 20),
+                            onPressed: onDelete,
+                          ),
+                        IconButton(
+                          constraints: const BoxConstraints(),
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                            color: isFavorite ? Colors.amber : Colors.grey,
+                            size: 24,
+                          ),
+                          onPressed: onFavoriteToggle,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),

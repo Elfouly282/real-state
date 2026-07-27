@@ -12,10 +12,10 @@ void main() async {
   initProfileFeature();
   initFavoriteFeature();
 
-  // 1. تمرير التوكن الصحيح
-  await getIt<AuthStorage>().setToken('719|GMPAl7OzPeuZFrqTdsVTUmOZW35qkq5zooe26YWG6dddeca2');
-  
-  // 2. تمرير الـ ID الصحيح القادم من الاستجابة (217) 👈 هذا هو السر!
+  await getIt<AuthStorage>().setToken(
+    '719|GMPAl7OzPeuZFrqTdsVTUmOZW35qkq5zooe26YWG6dddeca2',
+  );
+
   await getIt<AuthStorage>().setUserId('217');
   runApp(const AppUser());
 }

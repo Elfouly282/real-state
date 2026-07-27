@@ -9,6 +9,9 @@ class FavoriteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FavoriteViewContent();
+    return BlocProvider(
+      create: (context) => getIt<FavoriteCubit>()..getFavorites(),
+      child: const FavoriteViewContent(),
+    );
   }
 }

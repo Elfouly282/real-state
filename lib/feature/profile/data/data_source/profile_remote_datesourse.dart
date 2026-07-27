@@ -1,6 +1,4 @@
 import 'package:real_state/core/api/dio_helper.dart';
-import 'package:real_state/core/di.dart';
-import 'package:real_state/core/security/security_helper.dart';
 import 'package:real_state/feature/profile/data/models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
@@ -32,37 +30,40 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
 
-@override
-Future<ProfileModel> updateProfile({
-  required String name,
-  required String email,
-  required String location,
-  required String phone,
-}) async {
-  final token = getIt<AuthStorage>().token;
+  @override
+  Future<ProfileModel> updateProfile({
+    required String name,
+    required String email,
+    required String location,
+    required String phone,
+  }) async {
+    final response = await DioHelper.putDataWithAuth(
+      url: '/api/v1/auth/profile',
+      withAuth: true,
+      data: {
+        'name': name,
+        'email': email,
+        'location': location,
+        'phone': phone,
+      },
+    );
+    return ProfileModel.fromJson(response.data);
+  }
 
-  final response = await DioHelper.putData(
-    url: '/api/v1/auth/profile',
-    data: {
-      'name': name,
-      'email': email,
-      'location': location,
-      'phone': phone,
-    },
-    // نقوم بتمرير Options مخصصة لهذا الطلب فقط لإرسال التوكن الصريح في الـ Header
-    // دون الحاجة لتغيير دالة putData نفسها في الكور
-  );
-  return ProfileModel.fromJson(response.data);
-}
   @override
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
   }) async {
-    await DioHelper.postData(
+    await DioHelper.putDataWithAuth(
       url: '/api/v1/auth/password',
       withAuth: true,
-      data: {'current_password': currentPassword, 'new_password': newPassword},
+      data: {
+        'current_password': currentPassword,
+        'password': newPassword,
+        'password_confirmation': newPassword,
+        'new_password': newPassword,
+      },
     );
   }
 }

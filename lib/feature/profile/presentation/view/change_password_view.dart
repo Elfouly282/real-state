@@ -40,7 +40,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تغيير كلمة المرور'),
+        title: const Text('Change Password'),
         centerTitle: true,
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
@@ -53,6 +53,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
               ),
             );
             Navigator.pop(context);
+            context.read<ProfileCubit>().getProfile();
           } else if (state is ChangePasswordError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -74,12 +75,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 children: [
                   const SizedBox(height: 10),
 
-                  // كلمة المرور الحالية
+                  // Current Password
                   TextFormField(
                     controller: _currentPasswordController,
                     obscureText: _isCurrentPasswordObscure,
                     decoration: InputDecoration(
-                      labelText: 'كلمة المرور الحالية',
+                      labelText: 'Current Password',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -99,19 +100,19 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'يرجى إدخال كلمة المرور الحالية';
+                        return 'Please enter your current password';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
 
-                  // كلمة المرور الجديدة
+                  // New Password
                   TextFormField(
                     controller: _newPasswordController,
                     obscureText: _isNewPasswordObscure,
                     decoration: InputDecoration(
-                      labelText: 'كلمة المرور الجديدة',
+                      labelText: 'New Password',
                       prefixIcon: const Icon(Icons.lock_reset),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -131,22 +132,22 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'يرجى إدخال كلمة المرور الجديدة';
+                        return 'Please enter a new password';
                       }
                       if (value.length < 6) {
-                        return 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+                        return 'Password must be at least 6 characters';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
 
-                  // تأكيد كلمة المرور الجديدة
+                  // Confirm New Password
                   TextFormField(
                     controller: _confirmPasswordController,
                     obscureText: _isConfirmPasswordObscure,
                     decoration: InputDecoration(
-                      labelText: 'تأكيد كلمة المرور الجديدة',
+                      labelText: 'Confirm New Password',
                       prefixIcon: const Icon(Icons.check_circle_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -166,17 +167,17 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'يرجى تأكيد كلمة المرور الجديدة';
+                        return 'Please confirm your new password';
                       }
                       if (value != _newPasswordController.text) {
-                        return 'كلمتا المرور غير متطابقتين';
+                        return 'Passwords do not match';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 35),
 
-                  // زر التحديث
+                  // Update Button
                   SizedBox(
                     height: 52,
                     child: ElevatedButton(
@@ -193,7 +194,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               child: CircularProgressIndicator(strokeWidth: 2.5),
                             )
                           : const Text(
-                              'تحديث كلمة المرور',
+                              'Update Password',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

@@ -9,23 +9,17 @@ class ProfileHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is ProfileLoading) {
-          return const SizedBox(
-            height: 250,
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
+        final cubit = context.read<ProfileCubit>();
+        final profile = (state is ProfileSuccess) ? state.profile : cubit.currentProfile;
 
-        if (state is ProfileSuccess) {
-          final profile = state.profile;
-
+        if (profile != null) {
           // رجعنا الاتجاه من اليسار لليمين LTR مثل تصميمك الأصلي
           return Directionality(
             textDirection: TextDirection.ltr,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                // صورة الغلاف العلوي
+                // Cover image
                 Container(
                   height: 180,
                   width: double.infinity,
@@ -37,13 +31,13 @@ class ProfileHeaderWidget extends StatelessWidget {
                   ),
                 ),
 
-                // تفاصيل الملف الشخصي
+                // Profile details
                 Padding(
                   padding: const EdgeInsets.only(top: 110, left: 20, right: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // الصورة الشخصية الدائرية
+                      // Avatar picture
                       Container(
                         width: 100,
                         height: 100,
@@ -58,11 +52,11 @@ class ProfileHeaderWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      // الاسم وأيقونة التعديل
+                      // Name and Edit icon
                       Row(
                         children: [
                           Text(
-                            profile.name.isNotEmpty ? profile.name : 'مستخدم',
+                            profile.name.isNotEmpty ? profile.name : 'User',
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -80,11 +74,11 @@ class ProfileHeaderWidget extends StatelessWidget {
                         ],
                       ),
 
-                      // الموقع
+                      // Location
                       Text(
                         profile.location.isNotEmpty
                             ? profile.location
-                            : 'غير محدد',
+                            : 'Not Specified',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -95,6 +89,13 @@ class ProfileHeaderWidget extends StatelessWidget {
                 ),
               ],
             ),
+          );
+        }
+
+        if (state is ProfileLoading) {
+          return const SizedBox(
+            height: 250,
+            child: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -109,7 +110,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                   onPressed: () {
                     context.read<ProfileCubit>().getProfile();
                   },
-                  child: const Text('إعادة المحاولة'),
+                  child: const Text('Retry'),
                 ),
               ],
             ),
