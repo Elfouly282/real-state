@@ -28,7 +28,7 @@ class FavoritePropertyItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // الصورة وزر المفضلة
+          
           Stack(
             children: [
               ClipRRect(
@@ -70,7 +70,7 @@ class FavoritePropertyItemCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // العنوان والتقييم
+              
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -100,7 +100,7 @@ class FavoritePropertyItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
 
-                // العنوان/الموقع
+               
                 Row(
                   children: [
                     const Icon(Icons.location_on_outlined, color: Color(0xFF00B4D8), size: 14),
@@ -117,7 +117,7 @@ class FavoritePropertyItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
 
-                // السعر
+                
                 Text(
                   property.price,
                   style: const TextStyle(

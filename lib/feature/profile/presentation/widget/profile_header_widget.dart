@@ -13,7 +13,7 @@ class ProfileHeaderWidget extends StatelessWidget {
         final profile = (state is ProfileSuccess) ? state.profile : cubit.currentProfile;
 
         if (profile != null) {
-          // رجعنا الاتجاه من اليسار لليمين LTR مثل تصميمك الأصلي
+        
           return Directionality(
             textDirection: TextDirection.ltr,
             child: Stack(
@@ -31,7 +31,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                   ),
                 ),
 
-                // Profile details
+             
                 Padding(
                   padding: const EdgeInsets.only(top: 110, left: 20, right: 20),
                   child: Column(
@@ -52,7 +52,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      // Name and Edit icon
+                 
                       Row(
                         children: [
                           Text(
@@ -74,7 +74,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                         ],
                       ),
 
-                      // Location
+                   
                       Text(
                         profile.location.isNotEmpty
                             ? profile.location

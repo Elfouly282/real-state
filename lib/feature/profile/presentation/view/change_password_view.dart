@@ -1,6 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_state/core/constant/custom_textformfield.dart';
 import 'package:real_state/feature/profile/presentation/cubit/profile_cubit.dart';
+
+// تأكد من ضبط الـ import للـ CustomTextformfeild الخاص بك
+// import 'path_to_your_custom_textformfield.dart';
 
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
@@ -15,9 +20,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  bool _isCurrentPasswordObscure = true;
-  bool _isNewPasswordObscure = true;
-  bool _isConfirmPasswordObscure = true;
+  // Keys للحقول المطلوبة بواسطة CustomTextformfeild
+  final _currentPasswordKey = GlobalKey<FormFieldState>();
+  final _newPasswordKey = GlobalKey<FormFieldState>();
+  final _confirmPasswordKey = GlobalKey<FormFieldState>();
 
   @override
   void dispose() {
@@ -39,10 +45,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Change Password'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Change Password'), centerTitle: true),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ChangePasswordSuccess) {
@@ -76,28 +79,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   const SizedBox(height: 10),
 
                   // Current Password
-                  TextFormField(
+                  CustomTextformfeild(
+                    formFieldKey: _currentPasswordKey,
                     controller: _currentPasswordController,
-                    obscureText: _isCurrentPasswordObscure,
-                    decoration: InputDecoration(
-                      labelText: 'Current Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isCurrentPasswordObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isCurrentPasswordObscure = !_isCurrentPasswordObscure;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    labelText: 'Current Password',
+                    hintText: 'Enter current password',
+                    isPassword: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    prefixIcon: const Icon(Icons.lock_outline),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your current password';
@@ -108,28 +97,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   const SizedBox(height: 20),
 
                   // New Password
-                  TextFormField(
+                  CustomTextformfeild(
+                    formFieldKey: _newPasswordKey,
                     controller: _newPasswordController,
-                    obscureText: _isNewPasswordObscure,
-                    decoration: InputDecoration(
-                      labelText: 'New Password',
-                      prefixIcon: const Icon(Icons.lock_reset),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isNewPasswordObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isNewPasswordObscure = !_isNewPasswordObscure;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    labelText: 'New Password',
+                    hintText: 'Enter new password',
+                    isPassword: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    prefixIcon: const Icon(Icons.lock_reset),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a new password';
@@ -143,28 +118,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   const SizedBox(height: 20),
 
                   // Confirm New Password
-                  TextFormField(
+                  CustomTextformfeild(
+                    formFieldKey: _confirmPasswordKey,
                     controller: _confirmPasswordController,
-                    obscureText: _isConfirmPasswordObscure,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm New Password',
-                      prefixIcon: const Icon(Icons.check_circle_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isConfirmPasswordObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isConfirmPasswordObscure = !_isConfirmPasswordObscure;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    labelText: 'Confirm New Password',
+                    hintText: 'Confirm new password',
+                    isPassword: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    prefixIcon: const Icon(Icons.check_circle_outline),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm your new password';
@@ -191,7 +152,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                           ? const SizedBox(
                               height: 24,
                               width: 24,
-                              child: CircularProgressIndicator(strokeWidth: 2.5),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                              ),
                             )
                           : const Text(
                               'Update Password',

@@ -21,14 +21,14 @@ class ProfileMenuCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section 1: Account Setting
           const SectionHeaderWidget(title: 'Account Setting'),
           MenuItemWidget(
             icon: Icons.person_outline,
             title: 'Personal Information',
             onTap: () {
               final cubit = context.read<ProfileCubit>();
-              final profile = cubit.currentProfile ??
+              final profile =
+                  cubit.currentProfile ??
                   (cubit.state is ProfileSuccess
                       ? (cubit.state as ProfileSuccess).profile
                       : null);
@@ -64,7 +64,6 @@ class ProfileMenuCardWidget extends StatelessWidget {
           ),
           const Divider(height: 32),
 
-          // Section 3: Setting & Security
           const SectionHeaderWidget(title: 'Setting & Security'),
           MenuItemWidget(
             icon: Icons.lock_outline,
@@ -73,7 +72,6 @@ class ProfileMenuCardWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  // Pass the same ProfileCubit instance to ChangePasswordView
                   builder: (_) => BlocProvider.value(
                     value: context.read<ProfileCubit>(),
                     child: const ChangePasswordView(),

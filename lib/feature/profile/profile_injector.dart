@@ -4,20 +4,12 @@ import 'package:real_state/feature/profile/data/data_source/profile_remote_dates
 import 'package:real_state/feature/profile/data/repositories/profile_repositoryImpl.dart';
 import 'package:real_state/feature/profile/presentation/cubit/profile_cubit.dart';
 
-// 1. Domain Layer Imports
+
 import 'domain/repositories/profile_repository.dart';
 import 'domain/usecases/get_profile_usecase.dart';
 import 'domain/usecases/update_profile_usecase.dart';
 import 'domain/usecases/change_password_usecase.dart';
 
-// 2. Data Layer Imports
-
-
-// 3. Core Imports (مسارات الكور الخاصة بك للـ NetworkInfo)
-
-
-// 4. Presentation / Cubit Import (سننشئه في الخطوة القادمة)
-// import 'presentation/controllers/profile_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -34,7 +26,7 @@ void initProfileFeature() {
     sl.registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(
         remoteDataSource: sl<ProfileRemoteDataSource>(),
-        networkInfo: sl<NetworkInfo>(), // يأخذ النسخة المسجلة في الكور
+        networkInfo: sl<NetworkInfo>(), 
       ),
     );
   }

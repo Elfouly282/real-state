@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_state/core/constant/custom_textformfield.dart';
 import 'package:real_state/feature/profile/domain/entity/profile_entity.dart';
-
 import 'package:real_state/feature/profile/presentation/cubit/profile_cubit.dart';
+
+
 
 class UpdateProfilePage extends StatefulWidget {
   final ProfileEntity currentProfile;
@@ -21,10 +23,16 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   late final TextEditingController _phoneController;
   late final TextEditingController _locationController;
 
+  // مفاتيح FormFieldKey الخاصة بـ CustomTextformfeild
+  final _nameKey = GlobalKey<FormFieldState>();
+  final _emailKey = GlobalKey<FormFieldState>();
+  final _phoneKey = GlobalKey<FormFieldState>();
+  final _locationKey = GlobalKey<FormFieldState>();
+
   @override
   void initState() {
     super.initState();
-    // تعبئة حقول الإدخال بالبيانات الحالية عند فتح الشاشة
+
     _nameController = TextEditingController(text: widget.currentProfile.name);
     _emailController = TextEditingController(text: widget.currentProfile.email);
     _phoneController = TextEditingController(text: widget.currentProfile.phone);
@@ -44,7 +52,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
   void _onSave() {
     if (_formKey.currentState!.validate()) {
-      // استدعاء الدالة مباشرة بالقيم من حقول الإدخال
       context.read<ProfileCubit>().updateProfile(
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
@@ -71,10 +78,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
             );
 
-            // 1. إغلاق شاشة التعديل والعودة للشاشة الرئيسية أولاً
             Navigator.pop(context);
 
-            // 2. طلب إعادة جلب البيانات فور العودة للتحديث
             context.read<ProfileCubit>().getProfile();
           } else if (state is UpdateProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -92,19 +97,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // حقل الاسم
-                const Text(
-                  'Full Name',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+                // Name
+                CustomTextformfeild(
+                  formFieldKey: _nameKey,
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your name',
-                    prefixIcon: Icon(Icons.person_outline),
-                    border: OutlineInputBorder(),
-                  ),
+                  labelText: 'Full Name',
+                  hintText: 'Enter your name',
+                  keyboardType: TextInputType.name,
+                  prefixIcon: const Icon(Icons.person_outline),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your name';
@@ -114,20 +114,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // حقل البريد الإلكتروني
-                const Text(
-                  'Email',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+                // Email
+                CustomTextformfeild(
+                  formFieldKey: _emailKey,
                   controller: _emailController,
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    prefixIcon: Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(),
-                  ),
+                  prefixIcon: const Icon(Icons.email_outlined),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your email';
@@ -137,20 +131,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // حقل رقم الهاتف
-                const Text(
-                  'Phone Number',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+                // Phone Number
+                CustomTextformfeild(
+                  formFieldKey: _phoneKey,
                   controller: _phoneController,
+                  labelText: 'Phone Number',
+                  hintText: 'Enter your phone number',
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your phone number',
-                    prefixIcon: Icon(Icons.phone_outlined),
-                    border: OutlineInputBorder(),
-                  ),
+                  prefixIcon: const Icon(Icons.phone_outlined),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your phone number';
@@ -160,19 +148,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // حقل الموقع / العنوان
-                const Text(
-                  'Location',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+                // Location
+                CustomTextformfeild(
+                  formFieldKey: _locationKey,
                   controller: _locationController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your location',
-                    prefixIcon: Icon(Icons.location_on_outlined),
-                    border: OutlineInputBorder(),
-                  ),
+                  labelText: 'Location',
+                  hintText: 'Enter your location',
+                  keyboardType: TextInputType.streetAddress,
+                  prefixIcon: const Icon(Icons.location_on_outlined),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your location';
@@ -182,7 +165,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 32),
 
-                // زر تحديث البيانات مع حالة التحميل
+                // Save Button
                 BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
                     final isLoading = state is UpdateProfileLoading;

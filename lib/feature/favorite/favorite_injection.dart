@@ -6,7 +6,7 @@ import 'package:real_state/feature/favorite/domain/repositories/favorites_reposi
 import 'package:real_state/feature/favorite/domain/usecases/get_favorites_usecase.dart';
 import 'package:real_state/feature/favorite/domain/usecases/toggle_favorite_usecase.dart';
 import 'package:real_state/feature/favorite/presentation/cubit/favorite_cubit.dart';
-// استورد الملفات الخاصة بالفيتشر هنا (DataSources, Repositories, UseCases, Cubit)
+
 
 final sl = GetIt.instance;
 

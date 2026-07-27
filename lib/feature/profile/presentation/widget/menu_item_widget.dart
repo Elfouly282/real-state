@@ -15,7 +15,7 @@ class MenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent, // للحفاظ على خلفية الـ Card البيضاء
+      color: Colors.transparent, 
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Icon(icon, color: Colors.black87),

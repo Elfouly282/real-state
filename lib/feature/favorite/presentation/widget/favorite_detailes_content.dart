@@ -71,7 +71,6 @@ class _FavoriteDetailesContentState extends State<FavoriteDetailesContent> {
               ),
               const SizedBox(height: 16),
 
-              // بناء القائمة التفاعلية بواسطة الـ Cubit
               BlocConsumer<FavoriteCubit, FavoriteState>(
                 listener: (context, state) {
                   if (state is FavoritesError) {
