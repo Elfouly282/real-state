@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_state/core/constant/custom_button.dart';
 import 'package:real_state/core/constant/custom_textformfield.dart';
 import 'package:real_state/feature/profile/presentation/cubit/profile_cubit.dart';
-
-// تأكد من ضبط الـ import للـ CustomTextformfeild الخاص بك
-// import 'path_to_your_custom_textformfield.dart';
 
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
@@ -20,7 +17,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  // Keys للحقول المطلوبة بواسطة CustomTextformfeild
   final _currentPasswordKey = GlobalKey<FormFieldState>();
   final _newPasswordKey = GlobalKey<FormFieldState>();
   final _confirmPasswordKey = GlobalKey<FormFieldState>();
@@ -36,9 +32,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   void _onChangePasswordPressed() {
     if (_formKey.currentState!.validate()) {
       context.read<ProfileCubit>().changePassword(
-            currentPassword: _currentPasswordController.text.trim(),
-            newPassword: _newPasswordController.text.trim(),
-          );
+        currentPassword: _currentPasswordController.text.trim(),
+        newPassword: _newPasswordController.text.trim(),
+      );
     }
   }
 
@@ -78,7 +74,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 children: [
                   const SizedBox(height: 10),
 
-                  // Current Password
                   CustomTextformfeild(
                     formFieldKey: _currentPasswordKey,
                     controller: _currentPasswordController,
@@ -96,7 +91,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                   const SizedBox(height: 20),
 
-                  // New Password
                   CustomTextformfeild(
                     formFieldKey: _newPasswordKey,
                     controller: _newPasswordController,
@@ -117,7 +111,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Confirm New Password
                   CustomTextformfeild(
                     formFieldKey: _confirmPasswordKey,
                     controller: _confirmPasswordController,
@@ -138,32 +131,21 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                   const SizedBox(height: 35),
 
-                  // Update Button
-                  SizedBox(
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: isLoading ? null : _onChangePasswordPressed,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: isLoading
-                          ? const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.5,
-                              ),
-                            )
-                          : const Text(
-                              'Update Password',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                  CustomButton(
+                    data: 'Update Password',
+                    isLoading: isLoading,
+                    onTap: _onChangePasswordPressed,
+                    fontSize: 16, 
+                    txtcolor: Colors.white,
+                    color:  const Color(
+                      0xFF1597A8,
                     ),
+                    bordercolor: const Color(
+                      0xFF1597A8,
+                    ),
+                    width: double.infinity,
+                    height: 54, 
+                    borderRadius: 16,
                   ),
                 ],
               ),

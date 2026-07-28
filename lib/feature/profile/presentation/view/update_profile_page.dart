@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_state/core/constant/custom_button.dart';
 import 'package:real_state/core/constant/custom_textformfield.dart';
 import 'package:real_state/feature/profile/domain/entity/profile_entity.dart';
 import 'package:real_state/feature/profile/presentation/cubit/profile_cubit.dart';
@@ -53,11 +54,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   void _onSave() {
     if (_formKey.currentState!.validate()) {
       context.read<ProfileCubit>().updateProfile(
-        name: _nameController.text.trim(),
-        email: _emailController.text.trim(),
-        location: _locationController.text.trim(),
-        phone: _phoneController.text.trim(),
-      );
+            name: _nameController.text.trim(),
+            email: _emailController.text.trim(),
+            location: _locationController.text.trim(),
+            phone: _phoneController.text.trim(),
+          );
     }
   }
 
@@ -97,7 +98,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Name
+            
                 CustomTextformfeild(
                   formFieldKey: _nameKey,
                   controller: _nameController,
@@ -114,7 +115,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Email
+               
                 CustomTextformfeild(
                   formFieldKey: _emailKey,
                   controller: _emailController,
@@ -131,7 +132,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Phone Number
+              
                 CustomTextformfeild(
                   formFieldKey: _phoneKey,
                   controller: _phoneController,
@@ -148,7 +149,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Location
+              
                 CustomTextformfeild(
                   formFieldKey: _locationKey,
                   controller: _locationController,
@@ -165,33 +166,26 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 const SizedBox(height: 32),
 
-                // Save Button
+               
                 BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
                     final isLoading = state is UpdateProfileLoading;
 
-                    return SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: isLoading ? null : _onSave,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : const Text(
-                                'Save Changes',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      ),
+                    return CustomButton(
+                      data: 'Save Changes',
+                      isLoading: isLoading,
+                      onTap: _onSave,
+                       fontSize: 16, 
+                    txtcolor: Colors.white,
+                    color:  const Color(
+                      0xFF1597A8,
+                    ),
+                    bordercolor: const Color(
+                      0xFF1597A8,
+                    ),
+                    width: double.infinity,
+                    height: 54, 
+                    borderRadius: 16,
                     );
                   },
                 ),
